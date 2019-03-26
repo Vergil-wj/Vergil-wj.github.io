@@ -1,31 +1,20 @@
-
 ---
 layout: page
-title: "Hi, i'm Vergil!"
-<!-- description: "Hey, this is BY." -->
+title: "About"
+description: "Hey, this is Vergil."
 header-img: "img/post-bg-rwd.jpg"
 ---
 
-<!-- Chinese Version -->
 <div class="zh post-container">
 
-    <!--copied from markdown -->
-    <blockquote><p>冰冻三尺 非一日之寒<br>
-    积土成山 非斯须之作</p></blockquote>
-
-    <p>Hey，我是<strong>Vergil</strong>，一只iOS程序猿，现在厦门工作。</p>
-
-    <p>工作、学习之余，我还是一个健身爱好者，同时也非常喜欢拳击。</p>
-
-    <p></p>
     
-    <h5>Talks</h5>
-
-    <ul>
-        <li><a href="https://github.com">GitHub</a></li>
-        <li><a href="http://jekyll.com.cn/">jekyll</a></li>
-        <li><a href="https://analytics.google.com/analytics">Google Analytics</a></li>
-    </ul>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <br/>
+    <p>冰冻三尺, 非一日之寒;积土成山, 非斯须之作</p>
+    
 </div>
 
 
@@ -36,10 +25,8 @@ header-img: "img/post-bg-rwd.jpg"
     var $zh = document.querySelector(".zh");
     var $en = document.querySelector(".en");
     var $select = document.querySelector("select");
-
     // bind hashchange event
     window.addEventListener('hashchange', _render);
-
     // handle render
     function _render(){
         var _hash = window.location.hash;
@@ -56,7 +43,6 @@ header-img: "img/post-bg-rwd.jpg"
             $en.style.display = "none";
         }
     }
-
     // handle select change
     function onLanChange(index){
         if(index == 0){
@@ -65,7 +51,6 @@ header-img: "img/post-bg-rwd.jpg"
             window.location.hash = "#en"
         }
     }
-
     // init
     _render();
 </script>
@@ -108,7 +93,6 @@ header-img: "img/post-bg-rwd.jpg"
     var disqus_shortname = "{{site.disqus.username}}";
     var disqus_identifier = "{{site.disqus.username}}/{{page.url}}";
     var disqus_url = "{{site.url}}{{page.url}}";
-
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
@@ -117,4 +101,3 @@ header-img: "img/post-bg-rwd.jpg"
 </script>
 <!-- disqus 公共JS代码 end -->
 {% endif %}
-
