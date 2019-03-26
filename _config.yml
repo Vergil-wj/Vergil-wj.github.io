@@ -1,9 +1,9 @@
 # Site settings
-title: Vergil Blog
+title: Vergil's Blog
 SEOTitle: Vergil's blog
 header-img: img/post-bg-desk.jpg
 email: houweijiav@163.com
-description: "水滴石穿"
+description: "hello world"
 keyword: "iOS, Vergil"
 url: "https://vergil-wj.github.io"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
@@ -22,7 +22,7 @@ RSS: false
 #zhihu_username:     qiubaiying
 github_username:    Vergil-wj
 #facebook_username:  baiying.qiu.7
-#jianshu_username:   e71990ada2fd
+jianshu_username:   3e3ba42c4c63
 #twitter_username:   qiubaiying
 
 
