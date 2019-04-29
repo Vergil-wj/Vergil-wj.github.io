@@ -9,7 +9,7 @@ catalog: true
 tags:
     - iOS
     - Effective Objective-C 2.0
---
+---
 
 ## 第七条 在对象内部尽量直接访问实例变量
 
