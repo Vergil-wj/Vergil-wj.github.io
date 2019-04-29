@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      Effective Objective-C 2.0 (一)
+title:      Effective Objective-C 2.0 第一章 熟悉 Objective-C
 subtitle:   熟悉 Object-C
 date:       2019-04-24
 author:     Vergil
@@ -8,7 +8,7 @@ header-img: img/post-bg-cook.jpg
 catalog: true
 tags:
     - iOS
-    - Effective Object-C 2.0
+    - Effective Objective-C 2.0
 ---
 
 ## 一、了解 Objective-C 语言的起源
