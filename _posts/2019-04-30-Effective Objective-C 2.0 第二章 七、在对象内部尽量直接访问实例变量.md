@@ -2,7 +2,7 @@
 layout:     post
 title:      Effective Objective-C 2.0 第二章 七、在对象内部尽量直接访问实例变量
 subtitle:   在对象内部尽量直接访问实例变量
-date:       2019-04-29
+date:       2019-04-30
 author:     Vergil
 header-img: img/post-bg-cook.jpg
 catalog: true
