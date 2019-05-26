@@ -1,50 +1,12 @@
 <section class="footer">
   <footer>
     <div class = "footer_div">  
-      <nav class="cover-navigation navigation--social">
-        <ul class="navigation">
-
-          {% if site.social.github %}
-          <!-- Github -->
-          <li class="navigation__item_social">
-            <a href="https://github.com/{{site.social.github}}" title="@{{site.social.github}} 的 Github" target="_blank">
-              <div class="footer-social-icon" style="background:url(/images/github.png);"></div>
-            </a>
-          </li>
-          {% endif %}
-
-          {% if site.social.jianshu %}
-          <li class="navigation__item_social">
-            <a href="https://www.jianshu.com/u/{{site.social.jianshu}}" title="@{{site.social.jianshu}}" target="_blank">
-              <div class="footer-social-icon" style="background:url(/images/jianshu.jpg);"></div>
-            </a>
-          </li>
-
-          {% endif %}
-
-          {% if site.social.mail %}
-          <!-- Email -->
-          <li class="navigation__item_social">
-            <a href="mailto:{{site.social.mail}}" title="Contact me">
-              <div class="footer-social-icon" style="background:url(/images/email.png);"></div>
-            </a>
-          </li>
-          {% endif %}
-          
-        </ul>
-      </nav>
-
-    </div>
-
-    <div class = "footer_div">  
-
       <div align="center">
         <p class="copyright text-muted">
           Copyright &copy; {{ site.title }} {{ site.time | date: '%Y' }}
         </p>
         <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
       </div>
-
     </div>
   </footer>
 </section>
