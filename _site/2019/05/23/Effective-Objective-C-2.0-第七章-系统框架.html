@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>Effective Objective-C 2.0 第七章 系统框架</title>
+  <meta name="description" content="第 47 条 熟悉系统框架">
+  <meta name="author" content="leopardpan">
+
+  <!-- <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Effective Objective-C 2.0 第七章 系统框架">
+  <meta name="twitter:description" content="第 47 条 熟悉系统框架"> -->
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Effective Objective-C 2.0 第七章 系统框架">
+  <meta property="og:description" content="第 47 条 熟悉系统框架">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2019/05/23/Effective-Objective-C-2.0-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%B3%BB%E7%BB%9F%E6%A1%86%E6%9E%B6.html">
+  <link rel="alternate" type="application/rss+xml" title="Vergil" href="http://localhost:4000/feed.xml">
+  
+  <!-- <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" /> -->
+
+
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+        <div class="panel-main__content">
+            <!-- 头像效果-start -->
+            <div class="ih-item circle effect right_to_left">            
+                <a href="/#blog" title="前往 Vergil 的主页" class="blog-button">
+                    <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                    <div class="info">
+                        <div class="info-back">
+                            <h2> 
+                                
+                                Vergil
+                                
+                            </h2>
+                            <p>
+                             
+                             iOS
+                             
+                         </p>
+                     </div>
+                 </div>
+             </a>
+         </div>
+         <!-- 头像效果-end -->
+         <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for Vergil" class="blog-button">Vergil</a></h1>
+
+         
+         <span class="panel-cover__subtitle panel-subtitle">iOS 开发者</span>
+         
+
+         <hr class="panel-cover__divider" />
+         <p class="panel-cover__description">我用双手成就你的梦想！</p>
+         <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+         
+
+
+         <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+            </ul>
+        </nav>
+    </div>          
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+<div class="panel-cover--overlay cover-clear"></div>
+
+</div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title">Effective Objective-C 2.0 第七章 系统框架</h1>
+    <div class="post-meta"> 
+      <time datetime="2019-05-23 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2019-05-23</time>  
+    </div>
+  </header>
+
+  <section class="post">
+    <h2 id="第-47-条-熟悉系统框架">第 47 条 熟悉系统框架</h2>
+
+<p>我之前这篇文章<a href="https://www.jianshu.com/p/f1942262542d">iOS 框架</a>有介绍过，下面简单介绍下书中内容。</p>
+
+<blockquote>
+  <p>将一系列代码封装为动态库，并在其中放入描述其接口的头文件，这样做出来的东西就叫框架。</p>
+</blockquote>
+
+<p>在 iOS 上的框架为 Cocaa Touch 框架，其实其本身并不是框架，但是里面集成了一批创建应用程序时经常会用到的框架。</p>
+
+<p>我们开发者碰到的主要框架就是 <a href="https://www.jianshu.com/p/f1942262542d">Foundation</a>和<a href="https://www.jianshu.com/p/f1942262542d">UIKit</a>两大框架。其中 Foundation 框架是 Objective-C 应用程序的“基础”。</p>
+
+<h2 id="第-48-条-多用块枚举少用-for-循环">第 48 条 多用块枚举，少用 for 循环</h2>
+
+<p>遍历 collection 有四种方式。最基本的方法是for循环，其次是 NSEnumerator 遍历法及快速遍历法，最新最先进的的方式则是“block枚举法”。</p>
+
+<h3 id="1for-循环">1、for 循环</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//遍历数组
+NSArray *anArray = /*...*/;
+for (int i = 0; i &lt; anArray.count; i++)
+{
+    id object = anArray[i];
+    //Do something with 'object'
+}
+
+//遍历字典
+NSDictionary *aDictionary = /*...*/;
+NSArray *keys = [aDictionary allKeys];
+for (int i = 0; i &lt; keys.count; i++)
+{
+    id key = keys[i];
+    id value = aDictionary[key];
+    //Do something with 'key' and 'value'
+}
+
+//遍历 set
+NSSet *aSet = /*...*/;
+NSArray *objects = [aSet allObjects];
+for (int i = 0; i &lt; objects.count; i++)
+{
+    id object = objects[i];
+    //Do something with 'object'
+}
+
+</code></pre></div></div>
+
+<p>在遍历字典或者 Set 时，有点稍复杂，需要先获取字典中所有的键或 Set 中所有的对象，会增加额外的开销。</p>
+
+<h3 id="2nsenumerator">2、NSEnumerator</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//数组
+NSArray *anArray = /* ... */;
+NSEnumerator *enumerator = [anArray objectEnumerator];
+id object;
+while ((object = [enumerator nextObject]) != nil)
+{
+    // Do something with 'object'
+}
+
+//字典
+NSDictionary *aDictionary = /* ... */;
+NSEnumerator *enumerator = [aDictionary keyEnumerator];
+id key;
+while ((key = [enumerator nextObject]) != nil)
+{
+    id value = aDictionary[key];
+    // Do something with 'key' and 'value'
+}
+
+//Set
+// Set
+NSSet *aSet = /* ... */;
+NSEnumerator *enumerator = [aSet objectEnumerator];
+id object;
+while ((object = [enumerator nextObject]) != nil)
+{
+    // Do something with 'object'
+}
+
+//反向遍历数组
+NSArray *anArray = /* ... */;
+NSEnumerator *enumerator = [anArray reverseObjectEnumerator];
+id object;
+while ((object = [enumerator nextObject]) != nil)
+{
+    // Do something with 'object'
+}
+</code></pre></div></div>
+
+<p>与 for 循环相似，但在遍历数组时无法拿到下标，而我们一般开发时都会需要用到下标。</p>
+
+<h3 id="3快速遍历法">3、快速遍历法</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//数组
+NSArray *anArray = /* ... */;
+for (id object in anArray)
+{
+    // Do something with 'object'
+}
+
+//字典
+NSDictionary *aDictionary = /* ... */;
+for (id key in aDictionary)
+{
+    id value = aDictionary[key];
+    // Do something with 'key' and 'value'
+}
+
+// Set
+NSSet *aSet = /* ... */;
+for (id object in aSet)
+{
+    // Do something with 'object'
+}
+</code></pre></div></div>
+
+<p>这种办法是简单且效率高的，然而如果在遍历字典时需要同时获取键与值，那么会多出来一步。而且，与传统for循环不同，这种遍历方式无法轻松获取当前遍历操作所针对的下标。遍历时通常会用到这个下标，比如很多算法都需要它。</p>
+
+<h3 id="4基于-block-遍历方式">4、基于 block 遍历方式</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//数组
+NSArray *anArray = /* ... */;
+[anArray enumerateObjectsUsingBlock:^(id object, NSUInteger idx, BOOL *stop)
+{
+    // Do something with 'object'
+    if (shouldStop)
+    {
+        *stop = YES;
+    }
+}];
+
+//字典
+NSDictionary *aDictionary = /* ... */;
+[aDictionary enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stop)
+{
+    // Do something with 'key' and 'object'
+    if (shouldStop)
+    {
+        *stop = YES;
+     }
+}];
+
+//Set
+NSSet *aSet = /* ... */;
+[aSet enumerateObjectsUsingBlock:^(id object, BOOL *stop)
+{
+    // Do something with 'object'
+    if (shouldStop)
+    {
+    	*stop = YES;
+    }
+}];
+</code></pre></div></div>
+
+<p>遍历时可以直接从block里获取更多信息。在遍历数组时，可以知道当前所针对的下标。遍历有序set（NSOrderedSet）时也一样。而在遍历字典时，无须额外编码，即可同时获取键与值，因而省去了根据给定键来获取对应值这一步。用这种方式遍历字典，可以同事得知键与值，这很可能比其他方式快很多，因为在字典内部的数据结构中，键与值本来就是存储在一起的。</p>
+
+<h2 id="第-49-条-对自定义其内存管理语义的-collection-使用无缝桥接">第 49 条 对自定义其内存管理语义的 collection 使用无缝桥接</h2>
+
+<p>通过无缝桥接技术，可以在Foundation框架中的OC对象与Core Foundation框架中的C语言数据之间来回转换。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NSArray *arr = @[@"1",@"2",@"3"];
+CFArrayRef  aCFArray = (__bridge CFArrayRef)arr;
+</code></pre></div></div>
+
+<p>进行转换操作的修饰符共有3个：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>OC对象 -&gt; CF
+__bridge // ARC不交出对象的所有权
+__bridge_retained // ARC交出对象的所有权，手动管理内存，需要调用 CFRelease() 进行释放。
+ 
+CF -&gt; OC对象
+__bridge_transfer // ARC获得对象的所有权，自动管理内存
+</code></pre></div></div>
+
+<h2 id="第-50-条-构建缓存时选用-nscache-而非-nsdictionary">第 50 条 构建缓存时选用 NSCache 而非 NSDictionary</h2>
+
+<p>NSCache胜过NSDictionary的之处在于：</p>
+
+<ul>
+  <li>当系统资源将要耗尽时，它可以自动删减缓存。</li>
+  <li>NSCache还会先行删减“最久未使用的”(lease recently used)对象。</li>
+  <li>NSCache 并不会“拷贝”键，而是会“保留”它。NSCache对象不拷贝键的原因在于：很多时候，键都是有不支持拷贝操作的对象来充当的。因此，NSCache 不会自动拷贝键，所以说，在健不支持拷贝操作的情况下，该类用起来比字典更方便。</li>
+  <li>NSCache是线程安全的。而NSDictionary则绝不具备此优势，意思就是：在开发者自己不编写加锁代码的前提下，多个线程便可以同时访问NSCache.</li>
+</ul>
+
+<h2 id="第-51-条-精简-initialize-与-load-的实现代码">第 51 条 精简 initialize 与 load 的实现代码</h2>
+
+<h3 id="voidload">+(void)load</h3>
+
+<p>1、对于加入运行期系统的类及分类，必定会调用此方法，且仅调用一次。</p>
+
+<p>2、iOS会在应用程序启动的时候调用load方法，在main函数之前调用。</p>
+
+<p>3、执行子类的load方法前，会先执行所有超类的load方法，顺序为父类-&gt;子类-&gt;分类，则先调用类里面的，再调用分类里面的。</p>
+
+<p>4、在load方法中使用其他类是不安全的，因为会调用其他类的load方法，而如果关系复杂的话，就无法判断出各个类的载入顺序，类只有初始化完成后，类实例才能进行正常使用。</p>
+
+<p>5、load 方法不遵从继承规则，如果类本身没有实现load方法，那么系统就不会调用，不管父类有没有实现（跟下文的initialize有明显区别）。</p>
+
+<p>6、尽可能的精简load方法，因为整个应用程序在执行load方法时会阻塞，即，程序会阻塞直到所有类的load方法执行完毕，才会继续。</p>
+
+<p>7.、oad 方法中最常用的就是方法交换method swizzling。</p>
+
+<h3 id="voidinitialize">+(void)initialize</h3>
+
+<p>1、对于每个类来说,在首次使用该类之前，且仅调用一次.它是由运行期系统来调用的，绝不应该通过代码直接调用。</p>
+
+<p>2、惰性调用，只有当程序使用相关类(该类或子类)时，才会调用,因此，如果某个类一直都没有使用，那么initialize方法就一直不会运行。</p>
+
+<p>3、运行期系统会确保initialize方法是在线程安全的环境中执行，即，只有执行initialize的那个线程可以操作类或类实例。其他线程都要先阻塞，等待initialize执行完。</p>
+
+<p>4、如果类未实现initialize方法，而其超类实现了，那么会运行超类的实现代码，而且会运行两次。</p>
+
+<p>5、initialize方法也需要尽量精简，只应该用来设置内部数据：
+比如，某个全局状态无法在编译期初始化，可以放在initialize里面。</p>
+
+<p>6、对于分类中的initialize方法，会覆盖该类的initialize方法。</p>
+
+<h2 id="第-52-条-别忘了-nstime-会保留其目标对象">第 52 条 别忘了 NSTime 会保留其目标对象</h2>
+
+<p>NSTimer 对象会保留其目标，若要释放其目标需要计时器本身失效，失效有两种方式：</p>
+
+<ul>
+  <li>我们手动调用 invalidate 方法可伶计时器失效；</li>
+  <li>一次性的计时器在触发完任务之后也会失效。</li>
+</ul>
+
+<p>使用计时器反复执行任务时，通常会造成循环引用。如果我们对代码逻辑非常清楚，则手动调用 invalidate 方法就可以了，但还有更好的方法使我们我无须关注目标对象释放问题。</p>
+
+<p>我们通常的写法：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@interface EOCClass : NSObject
+- (void)startPolling;
+- (void)stopPolling;
+@end
+ 
+@implementation EOCClass{
+    NSTimer *_poliTimer;
+}
+ 
+- (id) init{
+    return [super init];
+}
+ 
+- (void)dealloc{
+    [_poliTimer invalidate];
+}
+ 
+- (void)stopPolling{
+    [_poliTimer invalidate];
+    _poliTimer = nil;
+}
+ 
+- (void)startPolling{
+    _poliTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(p_doPoll) userInfo:nil repeats:YES];
+}
+ 
+- (void)p_doPoll{
+    // code
+
+}
+</code></pre></div></div>
+
+<p>调用stopPolling方法或令系统将实例回收（会自动调用dealloc方法）可以使计时器失效，从而打破循环，但无法确保startPolling方法一定调用，而由于计时器保存着实例，实例永远不会被系统回收。当EOCClass实例的最后一个外部引用移走之后，实例仍然存活，而计时器对象也就不可能被系统回收，除了计时器外没有别的引用再指向这个实例，实例就永远丢失了，造成内存泄漏。</p>
+
+<p>优化后的方法：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@interface NSTimer (EOCBlocksSupport)
++ (NSTimer*)eoc_scheduledTimerWithTimeInterval:(NSTimeInterval)interval block:(void(^)())block repeats:(BOOL)repeats;
+@end
+ 
+@implementation NSTimer( EOCBlocksSupport)
+ 
++ (NSTimer*)eoc_scheduledTimerWithTimeInterval:(NSTimeInterval)interval block:(void (^)())block repeats:(BOOL)repeats{
+    return [self scheduledTimerWithTimeInterval:interval target:self selector:@selector(eoc_blockInvoke:) userInfo:[block copy] repeats:repeats];
+}
+ 
++ (void)eoc_blockInvoke:(NSTimer*)timer{
+    void (^block)() = timer.userInfo;
+    if (block) {
+        block();
+    }
+}
+</code></pre></div></div>
+
+<p>再修改 startPolling 方法：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (void)startPolling{
+    __weak EOCClass *weakSelf = self;
+    _poliTimer = [NSTimer eoc_scheduledTimerWithTimeInterval:5.0 block:^{
+        EOCClass *strongSelf = weakSelf;
+        [strongSelf p_doPoll];
+    } repeats:YES];
+}
+</code></pre></div></div>
+
+<p>这段代码先定义了一个弱引用指向self，然后用块捕获这个引用，这样self就不会被计时器所保留，当块开始执行时，立刻生成strong引用，保证实例在执行器继续存活。</p>
+
+<p>采用这种写法之后，如果外界指向 EOCClass 实例的最后一个引用将其释放，则该实例就可为系统所回收了。回收过程中还会调用计时器的 invalidate 方法，这样的话，计时器就不会再执行任务了。此处使用 weak 引用还能令程序更加安全，因为有时开发者可能在编写 dealloc 时忘了调用计时器的 invalidate 方法，从而导致计时器再次运行，若发生此类情况，则块里的 weakSelf 会变成 nil。</p>
+
+<h3 id="要点">要点：</h3>
+
+<ul>
+  <li>
+    <p>NSTimer 对象会保留其目标，直到计时器本身失效为止，调用 invalidate 方法可令计时器失效，另外，一次性的计时器在触发完任务之后也会失效。</p>
+  </li>
+  <li>
+    <p>反复执行任务的计时器（repeating timer），很容易引入保留环，如果这种计时器的目标对象又保留了计时器本身，那肯定会导致保留环。这种环状保留关系，可能是直接发生的，也可能是通过对象图里的其他对象间接发生的。</p>
+  </li>
+  <li>
+    <p>可以扩充 NSTimer 的功能，用 “块”来打破保留环。不过，除非 NSTimer 将来在公共接口里提供此功能，否则必须创建分类，将相关实现代码加入其中。</p>
+  </li>
+</ul>
+
+  </section>
+
+</article>
+
+<section>
+
+  <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+  <ul class="pager">
+    
+    <li class="previous">
+      <a href="/2019/05/22/Effective-Objective-C-2.0-%E7%AC%AC%E5%85%AD%E7%AB%A0-%E5%9D%97%E4%B8%8E%E5%A4%A7%E4%B8%AD%E6%9E%A2%E6%B4%BE%E5%8F%91(%E4%BA%8C).html" data-toggle="tooltip" data-placement="top" title="Effective Objective-C 2.0 第六章 块与大中枢派发(二)">上一篇：  <span>Effective Objective-C 2.0 第六章 块与大中枢派发(二)</span>
+      </a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/05/24/iOS-NSCache-%E7%BC%93%E5%AD%98.html" data-toggle="tooltip" data-placement="top" title="iOS NSCache 缓存">下一篇：  <span>iOS NSCache 缓存</span>
+      </a>
+    </li>
+    
+  </ul>
+</section>
+
+
+            <section class="footer">
+  <footer>
+    <div class = "footer_div">  
+      <nav class="cover-navigation navigation--social">
+        <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/Vergil-wj" title="@Vergil-wj 的 Github" target="_blank">
+              <div class="footer-social-icon" style="background:url(/images/github.png);"></div>
+            </a>
+          </li>
+          
+
+          
+          <li class="navigation__item_social">
+            <a href="https://www.jianshu.com/u/3e3ba42c4c63" title="@3e3ba42c4c63" target="_blank">
+              <div class="footer-social-icon" style="background:url(/images/jianshu.jpg);"></div>
+            </a>
+          </li>
+
+          
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:834372189@qq.com" title="Contact me">
+              <div class="footer-social-icon" style="background:url(/images/email.png);"></div>
+            </a>
+          </li>
+          
+          
+        </ul>
+      </nav>
+
+    </div>
+
+    <div class = "footer_div">  
+
+      <div align="center">
+        <p class="copyright text-muted">
+          Copyright &copy; Vergil 2019
+        </p>
+        <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+      </div>
+
+    </div>
+  </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>

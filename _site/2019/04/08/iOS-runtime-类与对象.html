@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>iOS runtime 类与对象</title>
+  <meta name="description" content="Objective-C runtime 是一个运行时库，它提供支持 Objective-C 语言的动态属性，其优势在于程序正在运行时，我们可以把消息转发给我们想要的对象，或者随意交换一个方法的实现等；">
+  <meta name="author" content="leopardpan">
+
+  <!-- <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="iOS runtime 类与对象">
+  <meta name="twitter:description" content="Objective-C runtime 是一个运行时库，它提供支持 Objective-C 语言的动态属性，其优势在于程序正在运行时，我们可以把消息转发给我们想要的对象，或者随意交换一个方法的实现等；"> -->
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="iOS runtime 类与对象">
+  <meta property="og:description" content="Objective-C runtime 是一个运行时库，它提供支持 Objective-C 语言的动态属性，其优势在于程序正在运行时，我们可以把消息转发给我们想要的对象，或者随意交换一个方法的实现等；">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2019/04/08/iOS-runtime-%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1.html">
+  <link rel="alternate" type="application/rss+xml" title="Vergil" href="http://localhost:4000/feed.xml">
+  
+  <!-- <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" /> -->
+
+
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+        <div class="panel-main__content">
+            <!-- 头像效果-start -->
+            <div class="ih-item circle effect right_to_left">            
+                <a href="/#blog" title="前往 Vergil 的主页" class="blog-button">
+                    <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                    <div class="info">
+                        <div class="info-back">
+                            <h2> 
+                                
+                                Vergil
+                                
+                            </h2>
+                            <p>
+                             
+                             iOS
+                             
+                         </p>
+                     </div>
+                 </div>
+             </a>
+         </div>
+         <!-- 头像效果-end -->
+         <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for Vergil" class="blog-button">Vergil</a></h1>
+
+         
+         <span class="panel-cover__subtitle panel-subtitle">iOS 开发者</span>
+         
+
+         <hr class="panel-cover__divider" />
+         <p class="panel-cover__description">我用双手成就你的梦想！</p>
+         <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+         
+
+
+         <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+            </ul>
+        </nav>
+    </div>          
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+<div class="panel-cover--overlay cover-clear"></div>
+
+</div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title">iOS runtime 类与对象</h1>
+    <div class="post-meta"> 
+      <time datetime="2019-04-08 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2019-04-08</time>  
+    </div>
+  </header>
+
+  <section class="post">
+    <p>Objective-C runtime 是一个运行时库，它提供支持 Objective-C 语言的动态属性，其优势在于程序正在运行时，我们可以把消息转发给我们想要的对象，或者随意交换一个方法的实现等；</p>
+
+<p>Runtime 库主要做下面几件事：</p>
+
+<ul>
+  <li>
+    <p>封装：在这个库中，对象可以用 C 语言中的结构体表示，而方法可以用 C 函数来实现，另外再加上了一些额外的特性。这些结构体和函数被 runtime 函数封装后，我们就可以在程序运行时创建，检查，修改类、对象和它们的方法了。</p>
+  </li>
+  <li>
+    <p>找出方法的最终执行代码：当程序执行 [object doSomething] 时，会向消息接收者 (object) 发送一条消息 (doSomething)，runtime 会根据消息接收者是否能响应该消息而做出不同的反应，我们会在后面系列详细介绍。</p>
+  </li>
+</ul>
+
+<p>要了解 runtime 的基本工作原理，，我们先来了解一下类与对象，这是面向对象的基础，我们看看在Runtime中，类和对象是如何实现的。</p>
+
+<h2 id="class">Class</h2>
+
+<p>Objective-C 类是由 Class 类型表示，它是一个指向 objc_class 结构体的指针。它的定义如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/// An opaque type that represents an Objective-C class.
+typedef struct objc_class *Class;
+</code></pre></div></div>
+
+<p>objc_class 结构体定义如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>struct objc_class {
+    Class isa  OBJC_ISA_AVAILABILITY;
+
+#if !__OBJC2__
+    Class super_class                                        OBJC2_UNAVAILABLE;
+    const char *name                                         OBJC2_UNAVAILABLE;
+    long version                                             OBJC2_UNAVAILABLE;
+    long info                                                OBJC2_UNAVAILABLE;
+    long instance_size                                       OBJC2_UNAVAILABLE;
+    struct objc_ivar_list *ivars                             OBJC2_UNAVAILABLE;
+    struct objc_method_list **methodLists                    OBJC2_UNAVAILABLE;
+    struct objc_cache *cache                                 OBJC2_UNAVAILABLE;
+    struct objc_protocol_list *protocols                     OBJC2_UNAVAILABLE;
+#endif
+
+} OBJC2_UNAVAILABLE;
+/* Use `Class` instead of `struct objc_class *` */
+
+</code></pre></div></div>
+
+<p>我们来看下其中每个字段的含义：</p>
+
+<ul>
+  <li>
+    <p>isa: 在 OC 中，任何数据结构只要在恰当的位置具有一个指针 isa 指向一个 Class，都可以被认为是一个对象。从这里可以看到类自身也是一个对象，我们称为类对象，这个 isa 指针指向 metaClass(元类)，我们会在后面介绍它。</p>
+  </li>
+  <li>super_class: 指向该类的父类，如果该类已经是最顶层的根类(如 NSObject 或 NSProxy)，则 super_class 为 NULL。</li>
+  <li>name: 类名</li>
+  <li>version：类的版本信息</li>
+  <li>info：类信息，供运行期使用的一些位标识。</li>
+  <li>instance_size：该类实例变量大小</li>
+  <li>ivars：该类的成员变量链表</li>
+  <li>methodLists：方法定义的链表，实例方法从这里查找，而类方法从这个类的 meta-class 的方法列表中查找。</li>
+  <li>cache：方法缓存。一个接收者对象接收到一个消息时，它会根据isa指针去查找能够响应这个消息的对象。在实际使用中，这个对象只有一部分方法是常用的，很多方法其实很少用或者根本用不上。这种情况下，如果每次消息来时，我们都是methodLists中遍历一遍，性能势必很差。这时，cache就派上用场了。在我们每次调用过一个方法后，这个方法就会被缓存到cache列表中，下次调用的时候runtime就会优先去cache中查找，如果cache没有，才去methodLists中查找方法。这样，对于那些经常用到的方法的调用，但提高了调用的效率。</li>
+  <li>protocols：协议链表</li>
+</ul>
+
+<h2 id="id">id</h2>
+
+<p>id 是指向 objc_object 的指针，定义如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/// A pointer to an instance of a class.
+typedef struct objc_object *id;
+</code></pre></div></div>
+
+<p>objc_object 结构体定义如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/// Represents an instance of a class.
+struct objc_object {
+    Class isa  OBJC_ISA_AVAILABILITY;
+};
+</code></pre></div></div>
+
+<p>可以看到，这个结构体只有一个字体，即指向其类的 isa 指针。这样，当我们向一个 Objective-C 对象发送消息时，运行时库会根据实例对象的 isa 指针找到这个实例对象所属的类。Runtime 库会在类的方法列表及父类的方法列表中去寻找与消息对应的 selector 指向的方法，找到后即运行这个方法。</p>
+
+<h2 id="meta-class">Meta Class</h2>
+
+<p>meta-class 就是一个类对象的类。举个例子：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NSArray *array = [NSArray array];
+</code></pre></div></div>
+
+<p>其中 NSArray 是类对象，根据 objc_class 定义有一个指针 isa 指向一个 Class，所以 NSArray 这个类本身又是一个对象，我们且称呼为类对象。那么
+ +array 消息发送给了 NSArray，为了调用 +array 方法，这个类的 isa 指针必须指向一个包含这些类方法的一个 objc_class 结构体，这个结构体就是 meta-class。</p>
+
+<p>当我们向一个对象发送消息时，runtime 会在这个对象所属的这个类的方法列表中查找方法；而向一个类发送消息时，会在这个类的 meta-class 的方法列表中查找。</p>
+
+<p>那么问题来了，meta-class 也是一个类，它的 isa 又指向什么呢？</p>
+
+<blockquote>
+  <p>答：NSObject 类元对象。</p>
+</blockquote>
+
+<p>那么 NSObject 类元对象的 isa 又指向什么呢？</p>
+
+<blockquote>
+  <p>答：NSObject类元对象自身。</p>
+</blockquote>
+
+<p>即，任何 NSObject 继承体系下的 meta-class 都使用 NSObject 的 meta-class 作为自己的所属类，而基类的 meta-class 的 isa 指针是指向它自己。这样就形成了一个完美的闭环。如下图所示：</p>
+
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1g1x9mdre69j31go0sgjuq.jpg" alt="" /></p>
+
+<p>写个例子来验证一下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Class class = [CustomObject class];//类对象
+
+Class metaClass = object_getClass(class);//类元对象
+Class metaOfMetaClass = object_getClass(metaClass);//NSObject类元对象
+Class rootMataClass = object_getClass(metaOfMetaClass);//NSObject类元对象的类元对象
+
+NSLog(@"CustomObject类对象是:%p",class);
+NSLog(@"CustomObject类元对象是:%p",metaClass);
+NSLog(@"metaClass类元对象:%p",metaOfMetaClass);
+NSLog(@"metaOfMetaClass的类元对象的是:%p",rootMataClass);
+NSLog(@"NSObject类元对象:%p",object_getClass([NSObject class]));
+</code></pre></div></div>
+
+<p>控制台输出：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CustomObject类对象是:0x10248aed0
+CustomObject类元对象是:0x10248aea8
+metaClass类元对象:0x102ce5198
+metaOfMetaClass的类元对象的是:0x102ce5198
+NSObject类元对象:0x102ce5198
+</code></pre></div></div>
+
+<h2 id="superclass">SuperClass</h2>
+
+<p>在面相对象中，我们知道，子类调用一个方法，如果子类没有实现，会查找基类。OC 作为一种面相对象的语言，当然支持这些。 
+我们依然写一段示例代码:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Class class = [CustomObject class];//类对象
+Class superClass = class_getSuperclass(class);//基类对象NSObject
+Class superOfNSObject = class_getSuperclass(superClass);//NSObject类元对象
+
+NSLog(@"CustomObject类对象是:%p,%@",class,class);
+NSLog(@"CustomObject类superClass是:%p,%@",superClass,superClass);
+NSLog(@"NSObject的superClass是:%p,%@",superOfNSObject, superOfNSObject);
+</code></pre></div></div>
+
+<p>控制台输出：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CustomObject类对象是:0x101792e88, CustomObject
+CustomObject类superClass是:0x101fec170,NSObject
+NSObject的superClass是:0x0,(null)
+</code></pre></div></div>
+
+<p>由此，我们可以绘制继承关系图:</p>
+
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1g1xb7j8extj30bg0iq3zb.jpg" alt="" /></p>
+
+<p>综合上述两个例子，我们绘制出完整的 isa 和 superClass 图：</p>
+
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1g1xb8tt8qlj30jg0jdabh.jpg" alt="" /></p>
+
+<h2 id="类与对象操作函数">类与对象操作函数</h2>
+
+<p>runtime 提供了大量的函数来操作类与对象。类的操作方法大部分是以 class_ 为前缀的，而对象的操作方法大部分是以 objc_ 或o bject_ 为前缀。</p>
+
+<p>我们可以回过头去看看 objc_class 的定义，runtime提供的操作类的方法主要就是针对这个结构体中的各个字段的。</p>
+
+<p>相关 API 使用请看这里：<a href="https://developer.apple.com/documentation/objectivec/objective-c_runtime?language=objc">Objective-C Runtime Reference</a></p>
+
+<h2 id="小结">小结</h2>
+
+<p>本章主要介绍了 Runtime 中类和对象的相关结构，对 Object-C 底层面向对象实现有更深一步的理解。</p>
+
+<h6 id="参考资料">参考资料：</h6>
+
+<p><a href="https://github.com/opensource-apple">runtime 源码 </a></p>
+
+<p><a href="https://developer.apple.com/documentation/objectivec/objective-c_runtime?language=objc">Objective-C Runtime Reference</a></p>
+
+<p><a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40008048-CH1-SW1">Objective-C Runtime Programming Guide</a></p>
+
+<p><a href="http://southpeak.github.io/categories/objectivec/">南峰子技术博客 http://southpeak.github.io/categories/objectivec/</a></p>
+
+<p><a href="https://blog.csdn.net/Hello_Hwc/article/details/49687543">https://blog.csdn.net/Hello_Hwc/article/details/49687543</a></p>
+
+  </section>
+
+</article>
+
+<section>
+
+  <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+  <ul class="pager">
+    
+    <li class="previous">
+      <a href="/2019/04/04/%E4%BD%BF%E7%94%A8CocoaPods%E6%9E%84%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E7%A7%81%E6%9C%89%E5%BA%93.html" data-toggle="tooltip" data-placement="top" title="使用CocoaPods构建自己的私有库">上一篇：  <span>使用CocoaPods构建自己的私有库</span>
+      </a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/04/10/iOS-runtime-%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1.html" data-toggle="tooltip" data-placement="top" title="iOS runtime 关联对象">下一篇：  <span>iOS runtime 关联对象</span>
+      </a>
+    </li>
+    
+  </ul>
+</section>
+
+
+            <section class="footer">
+  <footer>
+    <div class = "footer_div">  
+      <nav class="cover-navigation navigation--social">
+        <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/Vergil-wj" title="@Vergil-wj 的 Github" target="_blank">
+              <div class="footer-social-icon" style="background:url(/images/github.png);"></div>
+            </a>
+          </li>
+          
+
+          
+          <li class="navigation__item_social">
+            <a href="https://www.jianshu.com/u/3e3ba42c4c63" title="@3e3ba42c4c63" target="_blank">
+              <div class="footer-social-icon" style="background:url(/images/jianshu.jpg);"></div>
+            </a>
+          </li>
+
+          
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:834372189@qq.com" title="Contact me">
+              <div class="footer-social-icon" style="background:url(/images/email.png);"></div>
+            </a>
+          </li>
+          
+          
+        </ul>
+      </nav>
+
+    </div>
+
+    <div class = "footer_div">  
+
+      <div align="center">
+        <p class="copyright text-muted">
+          Copyright &copy; Vergil 2019
+        </p>
+        <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+      </div>
+
+    </div>
+  </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>

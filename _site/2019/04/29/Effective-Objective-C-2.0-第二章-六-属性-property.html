@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>Effective Objective-C 2.0 第二章 六、属性 property</title>
+  <meta name="description" content="第六条 property">
+  <meta name="author" content="leopardpan">
+
+  <!-- <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Effective Objective-C 2.0 第二章 六、属性 property">
+  <meta name="twitter:description" content="第六条 property"> -->
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Effective Objective-C 2.0 第二章 六、属性 property">
+  <meta property="og:description" content="第六条 property">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2019/04/29/Effective-Objective-C-2.0-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%85%AD-%E5%B1%9E%E6%80%A7-property.html">
+  <link rel="alternate" type="application/rss+xml" title="Vergil" href="http://localhost:4000/feed.xml">
+  
+  <!-- <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" /> -->
+
+
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+        <div class="panel-main__content">
+            <!-- 头像效果-start -->
+            <div class="ih-item circle effect right_to_left">            
+                <a href="/#blog" title="前往 Vergil 的主页" class="blog-button">
+                    <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                    <div class="info">
+                        <div class="info-back">
+                            <h2> 
+                                
+                                Vergil
+                                
+                            </h2>
+                            <p>
+                             
+                             iOS
+                             
+                         </p>
+                     </div>
+                 </div>
+             </a>
+         </div>
+         <!-- 头像效果-end -->
+         <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for Vergil" class="blog-button">Vergil</a></h1>
+
+         
+         <span class="panel-cover__subtitle panel-subtitle">iOS 开发者</span>
+         
+
+         <hr class="panel-cover__divider" />
+         <p class="panel-cover__description">我用双手成就你的梦想！</p>
+         <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+         
+
+
+         <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+            </ul>
+        </nav>
+    </div>          
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+<div class="panel-cover--overlay cover-clear"></div>
+
+</div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title">Effective Objective-C 2.0 第二章 六、属性 property</h1>
+    <div class="post-meta"> 
+      <time datetime="2019-04-29 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2019-04-29</time>  
+    </div>
+  </header>
+
+  <section class="post">
+    <h2 id="第六条-property">第六条 property</h2>
+
+<p>property 是 Objective-C 的一项特性，用于封装对象中的数据。</p>
+
+<p>当我们声明一个属性时：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@property(nonatomic,copy)NSString *name;
+</code></pre></div></div>
+
+<p>编译器自动为我们生成了如下不可见代码：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@synthesize name = _name; //添加实例变量
+-(NSString *)name;  // get 方法
+-(void)setName:(NSString *)name  //set 方法
+</code></pre></div></div>
+
+<p>也就说 @property = 实例变量 + get 方法 + set 方法。</p>
+
+<p>如果我们不想让编译器为我们自动生成，可以使用 @dynamic 代替 @synthesize，同时自己要手动实现相对应的 set 与 get 方法。</p>
+
+<h3 id="property-特质attribute">property 特质（attribute）</h3>
+
+<p>属性特质有四类：原子性、读写权限、内存管理、方法名。</p>
+
+<p>默认情况下，即我们不指定特质，那么基本数据类型的取值是：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>atomic,readwrite,assign
+</code></pre></div></div>
+
+<p>如果是 Objective-C 对象，默认取值是：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>atomic,readwrite,strong
+</code></pre></div></div>
+
+<h4 id="1原子性">1、原子性</h4>
+
+<p>在默认情况下，由编译器合成的方法会通过锁定机制确保其原子性（atomicity），即在上面例子中如果我们不写<code class="highlighter-rouge">nonatomic</code>，则默认为<code class="highlighter-rouge">atomic</code>。</p>
+
+<p>atomic 与 nonatomicd 的区别？</p>
+
+<p>它们的主要区别就是系统自动生成的 getter/setter 方法不一样</p>
+
+<ul>
+  <li>atomic 系统自动生成的 getter/setter 方法会进行加锁操作；</li>
+  <li>nonatomic 系统自动生成的 getter/setter 方法不会进行加锁操作；</li>
+</ul>
+
+<p>atomic 只是保证了 getter 和 setter 存取方法的线程安全,并不能保证整个对象是线程安全的,因此在多线程编程时,线程安全还需要开发者自己来处理.</p>
+
+<p>在我们开发 iOS 程序中，我们属性都声明为 nonatomic，这样做的原因是：在 iOS 中使用同步锁开销较大，这会带来性能问题，一般情况下并不要求属性必须是 atomic 的，因为这并不能保证线程安全。若要实现线程安全，需要我们手动采用更为深层的锁定机制才行。例如，一个线程在连续多次读取某属性值的过程中有别的线程在同时改写该值，那么即便将属性声明为 atomic，也还是会读到不同的属性值。因此，开发 iOS 程序时一般都会使用 nonatomic 属性。但是在开发 Mac 时，使用 atomic 属性通常不会有性能瓶颈。</p>
+
+<h4 id="2读写权限">2、读写权限</h4>
+
+<p>读写权限有两个取值，readwrite 和 readonly。声明属性时，如果不指定读写权限，那么默认是 readwrite 的。如果某个属性不想让其他人来写，那么可以设置成 readonly。</p>
+
+<h4 id="3内存管理">3、内存管理</h4>
+
+<p>内存管理的取值有 assign、strong、weak、copy、unsafe_unretained。</p>
+
+<ul>
+  <li>assign：通常用来修饰基本数据类型和结构体，如 int、float、BOOL、CGFloat 等。</li>
+  <li>strong：强引用，定义了一种“拥有关系”，用来修饰 OC 对象。为这种属性设置新值时，设置方法会先保留新值，并释放旧值，然后再将新值设置上去。</li>
+  <li>weak：弱引用，定义了一种“非拥有关系”,用来修饰 OC 对象。为这种属性设置新值时，设置方法既不保留新值，也不释放就值。此特质同 assign 类似，然而属性所指向的对象遭到摧毁时，属性值会置为 nil。</li>
+  <li>unsafe_unretained：此特质语义同 assign 相同，不过是用来修饰 OC 对象。该特质表达一种“非拥有关系”。当目标对象遭到摧毁时，属性值不会自动清空，这一点与 weak 有区别。”unsafe” 从这个字段也可以看出，使用它有风险，目标对象释放后，该属性会变成野指针，再次使用该属性，非常容易崩溃。</li>
+  <li>copy：此特质所表达的所属关系与 strong 类似，然而设置方法并不保留新值，而是将其拷贝。</li>
+</ul>
+
+<h4 id="4方法名">4、方法名</h4>
+
+<p>set、get 方法名。如果不想使用自动合成所生成的 setter、getter 方法，声明属性时甚至可以指定方法名。比如指定 getter 方法名：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@property (nonatomic, assign, getter=isPass) BOOL pass;
+</code></pre></div></div>
+
+<h4 id="copy-strong-区别">copy strong 区别</h4>
+
+<p>通常情况下，不可变对象使用 copy，可变对象使用 strong。如果使用错误的话，我们看下会发生什么情况：</p>
+
+<h5 id="a-不可变对象使用了-strong">a. 不可变对象使用了 strong</h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@property (nonatomic, strong) NSString *strongStr;
+</code></pre></div></div>
+
+<p>使用子类初始化父类：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NSMutableString *mutStr = [NSMutableString stringWithFormat:@"123"];
+self.strongStr = mutStr; //子类初始化父类
+NSLog(@"str = %@",self.strongStr);
+
+[mutStr appendString:@"456"];
+NSLog(@"str = %@",self.strongStr);
+</code></pre></div></div>
+
+<p>控制台输出：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>self.strongStr = 123
+self.strongStr = 123456
+</code></pre></div></div>
+
+<p>首先明确一点，既然类型是 NSString，那么则代表我们不希望 strongStr 被改变，否则直接使用可变对象 NSMutableString 就可以了。
+我们可以看到在开发者没有感知的情况下 strongStr 意外发生了改变，然而这是我们不想看到的结果。</p>
+
+<h5 id="b-可变对象使用了-copy">b. 可变对象使用了 copy</h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@property (nonatomic, copy) NSMutableString *mutString;
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NSString *str = @"123";
+self.mutString = [NSMutableString stringWithString:str];
+NSLog(@"str = %p self.mutString = %p",str,self.mutString); // 两者的地址不一样
+[self.mutString appendString:@"456"]; // 会崩溃，因为此时self.mutArray是NSString类型，是不可变对象
+</code></pre></div></div>
+
+<p>执行程序后,会崩溃，即 self.mutString 没有 appendString 方法。self.mutString 是 NSMutableString 类型，为何没有 appendString 方法呢？这就是使用 copy 造成的。看一下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>self.mutString = [NSMutableString stringWithString:str];
+</code></pre></div></div>
+
+<p>这行代码到底发生了什么。这行代码实际上完成了两件事：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 首先声明一个临时变量
+NSMutableString *tempString = [NSMutableString stringWithString:str];
+// 将该临时变量copy，赋值给self.mutString
+self.mutString = [tempString copy];
+</code></pre></div></div>
+
+<p>注意，通过 [tempString copy] 得到的 self.mutString 是一个不可变对象，不可变对象自然没有 appendString 方法，这也是为何会崩溃的原因。至于为什么是不可变，看完下面分析就清楚了。</p>
+
+<h5 id="copy-和-mutablecopy-区别">copy 和 mutableCopy 区别</h5>
+
+<p>主要就是深拷贝与浅拷贝的区别。所谓浅拷贝，在 Objective-C 中可以理解为引用计数加1，并没有申请新的内存区域，只是另外一个指针指向了该区域。深拷贝正好相反，深拷贝会申请新的内存区域，原内存区域的引用计数不变。</p>
+
+<p>可变对象的 copy 和 mutableCopy 都是深拷贝。</p>
+
+<p>不可变对象的 copy 是浅拷贝，mutableCopy 是深拷贝。</p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<p>Effective Objective-C 2.0</p>
+
+<p><a href="https://juejin.im/post/5c105c7ce51d4562d138086f">https://juejin.im/post/5c105c7ce51d4562d138086f</a></p>
+
+
+  </section>
+
+</article>
+
+<section>
+
+  <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+  <ul class="pager">
+    
+    <li class="previous">
+      <a href="/2019/04/28/CSS%E4%B8%AD-px-em-rem.html" data-toggle="tooltip" data-placement="top" title="css 中 font-size:62.5% 与 px em rem">上一篇：  <span>css 中 font-size:62.5% 与 px em rem</span>
+      </a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/04/30/Effective-Objective-C-2.0-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E4%B8%83-%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%86%85%E9%83%A8%E5%B0%BD%E9%87%8F%E7%9B%B4%E6%8E%A5%E8%AE%BF%E9%97%AE%E5%AE%9E%E4%BE%8B%E5%8F%98%E9%87%8F.html" data-toggle="tooltip" data-placement="top" title="Effective Objective-C 2.0 第二章 七、在对象内部尽量直接访问实例变量">下一篇：  <span>Effective Objective-C 2.0 第二章 七、在对象内部尽量直接访问实例变量</span>
+      </a>
+    </li>
+    
+  </ul>
+</section>
+
+
+            <section class="footer">
+  <footer>
+    <div class = "footer_div">  
+      <nav class="cover-navigation navigation--social">
+        <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/Vergil-wj" title="@Vergil-wj 的 Github" target="_blank">
+              <div class="footer-social-icon" style="background:url(/images/github.png);"></div>
+            </a>
+          </li>
+          
+
+          
+          <li class="navigation__item_social">
+            <a href="https://www.jianshu.com/u/3e3ba42c4c63" title="@3e3ba42c4c63" target="_blank">
+              <div class="footer-social-icon" style="background:url(/images/jianshu.jpg);"></div>
+            </a>
+          </li>
+
+          
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:834372189@qq.com" title="Contact me">
+              <div class="footer-social-icon" style="background:url(/images/email.png);"></div>
+            </a>
+          </li>
+          
+          
+        </ul>
+      </nav>
+
+    </div>
+
+    <div class = "footer_div">  
+
+      <div align="center">
+        <p class="copyright text-muted">
+          Copyright &copy; Vergil 2019
+        </p>
+        <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+      </div>
+
+    </div>
+  </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>

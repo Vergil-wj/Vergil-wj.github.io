@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>iOS 生命周期</title>
+  <meta name="description" content="APP 生命周期">
+  <meta name="author" content="leopardpan">
+
+  <!-- <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="iOS 生命周期">
+  <meta name="twitter:description" content="APP 生命周期"> -->
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="iOS 生命周期">
+  <meta property="og:description" content="APP 生命周期">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2019/04/23/iOS-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.html">
+  <link rel="alternate" type="application/rss+xml" title="Vergil" href="http://localhost:4000/feed.xml">
+  
+  <!-- <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" /> -->
+
+
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+        <div class="panel-main__content">
+            <!-- 头像效果-start -->
+            <div class="ih-item circle effect right_to_left">            
+                <a href="/#blog" title="前往 Vergil 的主页" class="blog-button">
+                    <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                    <div class="info">
+                        <div class="info-back">
+                            <h2> 
+                                
+                                Vergil
+                                
+                            </h2>
+                            <p>
+                             
+                             iOS
+                             
+                         </p>
+                     </div>
+                 </div>
+             </a>
+         </div>
+         <!-- 头像效果-end -->
+         <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for Vergil" class="blog-button">Vergil</a></h1>
+
+         
+         <span class="panel-cover__subtitle panel-subtitle">iOS 开发者</span>
+         
+
+         <hr class="panel-cover__divider" />
+         <p class="panel-cover__description">我用双手成就你的梦想！</p>
+         <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+         
+
+
+         <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+            </ul>
+        </nav>
+    </div>          
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+<div class="panel-cover--overlay cover-clear"></div>
+
+</div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title">iOS 生命周期</h1>
+    <div class="post-meta"> 
+      <time datetime="2019-04-23 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2019-04-23</time>  
+    </div>
+  </header>
+
+  <section class="post">
+    <h2 id="app-生命周期">APP 生命周期</h2>
+
+<p>当我们打开 APP 时，程序一般都是从 main 函数开始运行的，那么我们先来看下 Xcode 自动生成的 main.m 文件：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#import &lt;UIKit/UIKit.h&gt;
+#import "AppDelegate.h"
+
+int main(int argc, char * argv[]) {
+    @autoreleasepool {
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+    }
+}
+</code></pre></div></div>
+
+<p>这个默认的 iOS 程序就是从 main 函数开始执行的，但是在 main 函数中我们其实只能看到一个方法，这个方法内部是一个消息循环（相当于一个死循环），因此运行到这个方法 UIApplicationMain 之后程序不会自动退出，而只有当用户手动关闭程序这个循环才结束。我们看下这个方法定义：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int UIApplicationMain(int argc, char * _Nullable *argv, NSString *principalClassName, NSString *delegateClassName);
+</code></pre></div></div>
+
+<p>这个方法有四个参数：</p>
+
+<ul>
+  <li>argc：参数个数，与 main 函数的参数对应。</li>
+  <li>argv：参数内容，与 main 函数的参数对应。</li>
+  <li>principalClassName：代表 UIApplication 类或其子类。这个参数默认为 nil，则代表 UIApplication 类。UIApplication 是单例模式，一个应用程序只有一个 UIApplication 对象或子对象。</li>
+  <li>delegateClassName：代理，默认生成的是 AppDelegate 类，这个类主要用于监听整个应用程序生命周期的各个事件，当UIApplication运行过程中引发了某个事件之后会调用代理中对应的方法。</li>
+</ul>
+
+<p>关于返回值，即便声明了返回值，但该函数也从不会返回。</p>
+
+<p>也就是说当执行 UIApplicationMain 方法后这个方法会根据第三个参数<code class="highlighter-rouge">principalClassName </code>创建对应的 UIApplication 对象，这个对象会根据第四个参数<code class="highlighter-rouge">delegateClassName</code> 创建 AppDelegate 并指定此对象为 UIApplication 的代理；同时 UIApplication 会开启一个消息循环不断监听应用程序的各个活动，当应用程序生命周期发生改变 UIApplication 就会调用代理对应的方法。</p>
+
+<p>既然应用程序 UIApplication 是通过代理和外部交互的，那么我们就有必要清楚 AppDelegate 的操作细节，在这个类中定义了生命周期的各个事件的执行方法：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#import "AppDelegate.h"
+
+@interface AppDelegate ()
+
+@end
+
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    NSLog(@"程序已经启动");
+    return YES;
+}
+
+- (void)applicationWillResignActive:(UIApplication *)application {
+    NSLog(@"程序将要失去焦点");
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    NSLog(@"程序已经进入后台");
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    NSLog(@"程序将要进入前台");
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    NSLog(@"程序获得焦点");
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    NSLog(@"程序将要终止");
+}
+
+@end
+</code></pre></div></div>
+
+<p>简要说下我们不同的操作，程序运行结果：</p>
+
+<ul>
+  <li>
+    <p>启动程序</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  程序已经启动
+  程序获得焦点
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>按下 home 键</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  程序将要失去焦点
+  程序已经进入后台
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>再次打开程序</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  程序将要进入前台
+  程序获得焦点
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>下拉状态栏</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  程序将要失去焦点
+  程序获得焦点
+  程序将要失去焦点
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>状态栏收回</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  程序获得焦点
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>上拉控制中心</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  程序将要失去焦点
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>收回控制中心</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  程序获得焦点
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>来电</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  程序将要失去焦点
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>断电</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  程序获得焦点
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>双击 Home 并关闭应用</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  程序将要失去焦点
+  程序已经进入后台
+  程序将要终止
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>通过简单的操作，大家对整个运行周期有了个大概的了解。再附上一张图，让大家有个清晰的认识：</p>
+
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79ly1g26qura39qj30ik0hmaaf.jpg" alt="" /></p>
+
+<h2 id="uiviewcontroller-生命周期">UIViewController 生命周期</h2>
+
+<p>总览 UIViewController 生命周期：</p>
+
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79ly1g2cb9t9f9lj30j60hi3zi.jpg" alt="" /></p>
+
+<p>下面创建了一个 TestViewController 类，了解下整个过程：</p>
+
+<p>TestViewController.m：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#import "TestViewController.h"
+
+@interface TestViewController ()
+
+@end
+
+@implementation TestViewController
+
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+   self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    NSLog(@"%s",__func__);
+    return self;
+}
+
+-(instancetype)init{
+    self = [super init];
+    NSLog(@"%s",__func__);
+    return self;
+}
+
+-(instancetype)initWithCoder:(NSCoder *)aDecoder{
+    self = [super initWithCoder:aDecoder];
+    NSLog(@"%s",__func__);
+    return self;
+}
+
+-(void)awakeFromNib{
+    [super awakeFromNib];
+    NSLog(@"%s",__func__);
+}
+
+-(void)loadView{
+    [super loadView];
+    NSLog(@"%s",__func__);
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    NSLog(@"%s",__func__);
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    NSLog(@"%s",__func__);
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    NSLog(@"%s",__func__);
+}
+
+-(void)viewWillLayoutSubviews{
+    [super viewWillLayoutSubviews];
+    NSLog(@"%s",__func__);
+}
+
+-(void)viewDidLayoutSubviews{
+    [super viewDidLayoutSubviews];
+    NSLog(@"%s",__func__);
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    NSLog(@"%s",__func__);
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    NSLog(@"%s",__func__);
+}
+
+-(void)dealloc{
+    NSLog(@"%s",__func__);
+}
+
+@end
+</code></pre></div></div>
+
+<h3 id="uiviewcontroller-初始化">UIViewController 初始化</h3>
+
+<p>在 ViewController.m 中：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    TestViewController *vc = [[TestViewController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+</code></pre></div></div>
+
+<p>我们在创建 TestViewController 实例时，可以通过以下两种方法：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//第一种
+[[TestViewController alloc]initWithNibName:@"ViewController" bundle:nil];
+
+//第二种    
+[[TestViewController alloc]init];
+</code></pre></div></div>
+
+<p>我们经常使用的是第二种创建方法，其实第二种方法默认实现了第一种的方法，只不过两个参数默认传的是 nil。</p>
+
+<p>当 TestVeiwController 通过 xib 加载的时候，看下 viewDidLoad 之前发生了什么：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-[TestViewController initWithNibName:bundle:]
+-[TestViewController init]
+-[TestViewController loadView]
+-[TestViewController viewDidLoad]
+</code></pre></div></div>
+
+<p>无 xib：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-[TestViewController initWithNibName:bundle:]
+-[TestViewController init]
+-[TestViewController loadView]
+-[TestViewController viewDidLoad]
+</code></pre></div></div>
+<p>TestVeiwController 通过 storyboard 加载：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"TestViewController" bundle:nil];
+    TestViewController *testVC = [storyboard instantiateInitialViewController];
+    [self.navigationController pushViewController:testVC animated:YES];
+}
+</code></pre></div></div>
+
+<p>控制台输出：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-[TestViewController initWithCoder:]
+-[TestViewController awakeFromNib]
+-[TestViewController loadView]
+-[TestViewController viewDidLoad]
+</code></pre></div></div>
+
+<p>我们可以看到通过 storyboard 实例化与 <code class="highlighter-rouge">init</code> 实例化在 <code class="highlighter-rouge">loadView</code>方法调用之前走的是不同的方法。我们看下这几个方法的不同：</p>
+
+<h4 id="initwithnibnamebundle">initWithNibName:bundle:</h4>
+
+<p>此方法发生在 nib 加载之前。</p>
+
+<p>调用此方法进行 Controller 初始化，与 nib 加载无关。nib 的加载是懒加载，当 Controller 需要加载其视图时，才会加载此方法中指定的 nib。</p>
+
+<p>可以看出该方法初始化的 Controller 不是从 nib 创建的。</p>
+
+<h4 id="initwithcoder">initWithCoder</h4>
+
+<p>此方法发生在 nib 加载期间。</p>
+
+<p>所有 archived 对象的初始化使用此方法。nib 中存储的对象就是 archived 对象，所以此方法是  nib 加载对象时使用的初始化方法。</p>
+
+<p>当从 nib 创建 UIViewController 时使用此方法。</p>
+
+<h4 id="awakefromnib">awakeFromNib</h4>
+
+<p>此方法发生在 nib 中所有对象都已完全加载完之后。</p>
+
+<p>如果 <code class="highlighter-rouge">initWithCoder </code>是 unarchiving 开始，那此方法就是结束。</p>
+
+<h3 id="loadview-与-veiwdidload">loadView 与 veiwDidLoad</h3>
+
+<p>在此方法中创建视图。</p>
+
+<p>我们可以通过下图来理解它的逻辑：</p>
+
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79ly1g2bkaze330j30if0fqdgz.jpg" alt="" /></p>
+
+<p>每次访问 view 时，就会调用 self.view 的 get 方法，在 get 方法中判断<code class="highlighter-rouge">self.view==nil</code>，不为 nil 就直接返回 view，等于 nil 就去调用 loadView 方法。loadView 方法会去判断有无指定 storyBord/Xib 文件，如果有就去加载 storyBord/Xib 描述的控制器 view，如果没有则系统默认创建一个空的 view，赋给 self.view。loadView 方法有可能被多次调用（每当访问 self.view 并且为 nil 时就会调用一次）；</p>
+
+<p>系统会自动为我们加载 view，我们完全没必要手动创建 view。</p>
+
+<h3 id="viewwillappear">viewWillAppear</h3>
+
+<p>视图将要被展示的时候调用。</p>
+
+<p>其调用的时机与视图所在层次有关。例如我们常用的 push 与 present 操作改变了当前视图层次，都会触发此方法。</p>
+
+<p>1、那么 UIAlertController 也是 present 操作怎么没有触发呢？</p>
+
+<p>因为 UIAlertController 在另一个 window 上，view 在自己所在的 window 中层次并没有改变，所以不会触发，同理在锁屏以及进入后台时也不会触发。</p>
+
+<p>2、如果控制器 B 被展示在另一个控制器 A 的 popover 中，那么被展示的控制器 B 在消失后，控制器 A 并不会调用此方法。</p>
+
+<p>官方原文：</p>
+
+<blockquote>
+  <p>If a view controller is presented by a view controller inside of a popover, this method is not invoked on the presenting view controller after the presented controller is dismissed.</p>
+</blockquote>
+
+<p>例如我们使用的<code class="highlighter-rouge">addSubview </code>方法，如下：</p>
+
+<p>AViewController.m 中：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>BViewController *B = [[BViewController alloc]init];
+[self addChildViewController:B];
+[self.view addSubview:B.view];
+</code></pre></div></div>
+
+<p>当我们将 BViewController 从 AViewController 中移除后，并不会触发 AViewController 的 <code class="highlighter-rouge">viewWillAppear </code> 方法。</p>
+
+<h3 id="viewdidappear">viewDidAppear</h3>
+
+<p>视图渲染完成后调用，与<code class="highlighter-rouge">viewWillAppear </code>配套使用。</p>
+
+<h3 id="viewwilllayoutsubviews-与-viewdidlayoutsubviews">viewWillLayoutSubviews 与 viewDidLayoutSubviews</h3>
+
+<p>这两个方法发生在 <code class="highlighter-rouge">viewWillAppear </code> 与 <code class="highlighter-rouge">viewDidAppear </code> 之间。</p>
+
+<ul>
+  <li>
+    <p>viewWillLayoutSubviews</p>
+
+    <p>控制器将要布局 view 的子控件时调用，默认实现为空。此时子控件的大小还没有设置好。</p>
+  </li>
+  <li>
+    <p>viewDidLayoutSubviews</p>
+
+    <p>控制器已经布局 view 的子控件时调用，默认实现为空。此时子控件的大小才被设置好，这里才是获取子视图大小的正确位置。</p>
+  </li>
+</ul>
+
+<h3 id="viewwilldisappear-与-viewdiddisappear">viewWillDisappear 与 viewDidDisappear</h3>
+
+<p><code class="highlighter-rouge">viewWillDisappear </code>与<code class="highlighter-rouge">viewDidDisappear </code>配套使用。</p>
+
+<ul>
+  <li>
+    <p>viewWillDisappear</p>
+
+    <p>视图将要消失时调用</p>
+  </li>
+  <li>
+    <p>viewDidDisappear</p>
+
+    <p>视图完全消失后调用</p>
+  </li>
+</ul>
+
+<p>两个方法的调用时机同<code class="highlighter-rouge">viewWillAppear </code>和<code class="highlighter-rouge">viewDidAppear</code>道理相同。</p>
+
+<h3 id="didreceivememorywarning-与-viewdidunload">didReceiveMemoryWarning 与 viewDidUnload</h3>
+
+<p>这两个方法是收到内存警告时调用的。</p>
+
+<ul>
+  <li>viewDidUnload</li>
+</ul>
+
+<p>在 iOS5 以及之前使用的方法，iOS6 及之后已经废弃。在收到内存警告时，在此方法中将 view 置为 nil;</p>
+
+<ul>
+  <li>didReceiveMemoryWarning</li>
+</ul>
+
+<p>收到内存警告时，系统自动调用此方法，回收占用大量内存的视图数据。我们一般不需要在这里做额外的操作。如果要自己处理一些额外内存，重写时需要调用父类方法，即<code class="highlighter-rouge">[super didReceiveMemoryWarning]</code>。</p>
+
+<h3 id="dealloc">dealloc</h3>
+
+<p>UIViewController 释放时调用此方法。UIViewController 的生命周期到此结束。</p>
+
+<p>当我们重写此方法时，ARC 环境下不需要调用父类方法，MRC 环境下需要调用父类方法，即<code class="highlighter-rouge">[super dealloc]</code>。</p>
+
+<h2 id="小结">小结</h2>
+
+<p>本篇主要介绍了 APP 的生命周期，以及 UIViewController 的生命周期，对我们程序开发的过程有了更清晰的认识。</p>
+
+<p>参考资料：</p>
+
+<p><a href="https://www.cnblogs.com/kenshincui/p/3890880.html">https://www.cnblogs.com/kenshincui/p/3890880.html</a></p>
+
+<p><a href="https://www.quora.com/Cocoa-API-What-is-the-difference-between-initWithCoder-initWithNibName-and-awakeFromNib-1">https://www.quora.com/Cocoa-API-What-is-the-difference-between-initWithCoder-initWithNibName-and-awakeFromNib-1</a></p>
+
+
+  </section>
+
+</article>
+
+<section>
+
+  <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+  <ul class="pager">
+    
+    <li class="previous">
+      <a href="/2019/04/17/iOS-%E6%A1%86%E6%9E%B6.html" data-toggle="tooltip" data-placement="top" title="iOS 框架">上一篇：  <span>iOS 框架</span>
+      </a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/04/24/Effective-Objective-C-2.0-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E7%86%9F%E6%82%89-Objective-C.html" data-toggle="tooltip" data-placement="top" title="Effective Objective-C 2.0 第一章 熟悉 Objective-C">下一篇：  <span>Effective Objective-C 2.0 第一章 熟悉 Objective-C</span>
+      </a>
+    </li>
+    
+  </ul>
+</section>
+
+
+            <section class="footer">
+  <footer>
+    <div class = "footer_div">  
+      <nav class="cover-navigation navigation--social">
+        <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/Vergil-wj" title="@Vergil-wj 的 Github" target="_blank">
+              <div class="footer-social-icon" style="background:url(/images/github.png);"></div>
+            </a>
+          </li>
+          
+
+          
+          <li class="navigation__item_social">
+            <a href="https://www.jianshu.com/u/3e3ba42c4c63" title="@3e3ba42c4c63" target="_blank">
+              <div class="footer-social-icon" style="background:url(/images/jianshu.jpg);"></div>
+            </a>
+          </li>
+
+          
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:834372189@qq.com" title="Contact me">
+              <div class="footer-social-icon" style="background:url(/images/email.png);"></div>
+            </a>
+          </li>
+          
+          
+        </ul>
+      </nav>
+
+    </div>
+
+    <div class = "footer_div">  
+
+      <div align="center">
+        <p class="copyright text-muted">
+          Copyright &copy; Vergil 2019
+        </p>
+        <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+      </div>
+
+    </div>
+  </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>

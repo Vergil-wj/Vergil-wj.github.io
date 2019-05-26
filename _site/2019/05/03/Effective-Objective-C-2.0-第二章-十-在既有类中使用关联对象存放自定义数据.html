@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>Effective Objective-C 2.0 第二章 十、在既有类中使用关联对象存放自定义数据</title>
+  <meta name="description" content="我之前已经在这篇文章iOS runtime 关联对象做了详细介绍。本篇只是简单介绍下。">
+  <meta name="author" content="leopardpan">
+
+  <!-- <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Effective Objective-C 2.0 第二章 十、在既有类中使用关联对象存放自定义数据">
+  <meta name="twitter:description" content="我之前已经在这篇文章iOS runtime 关联对象做了详细介绍。本篇只是简单介绍下。"> -->
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Effective Objective-C 2.0 第二章 十、在既有类中使用关联对象存放自定义数据">
+  <meta property="og:description" content="我之前已经在这篇文章iOS runtime 关联对象做了详细介绍。本篇只是简单介绍下。">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2019/05/03/Effective-Objective-C-2.0-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8D%81-%E5%9C%A8%E6%97%A2%E6%9C%89%E7%B1%BB%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1%E5%AD%98%E6%94%BE%E8%87%AA%E5%AE%9A%E4%B9%89%E6%95%B0%E6%8D%AE.html">
+  <link rel="alternate" type="application/rss+xml" title="Vergil" href="http://localhost:4000/feed.xml">
+  
+  <!-- <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" /> -->
+
+
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+        <div class="panel-main__content">
+            <!-- 头像效果-start -->
+            <div class="ih-item circle effect right_to_left">            
+                <a href="/#blog" title="前往 Vergil 的主页" class="blog-button">
+                    <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                    <div class="info">
+                        <div class="info-back">
+                            <h2> 
+                                
+                                Vergil
+                                
+                            </h2>
+                            <p>
+                             
+                             iOS
+                             
+                         </p>
+                     </div>
+                 </div>
+             </a>
+         </div>
+         <!-- 头像效果-end -->
+         <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for Vergil" class="blog-button">Vergil</a></h1>
+
+         
+         <span class="panel-cover__subtitle panel-subtitle">iOS 开发者</span>
+         
+
+         <hr class="panel-cover__divider" />
+         <p class="panel-cover__description">我用双手成就你的梦想！</p>
+         <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+         
+
+
+         <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+            </ul>
+        </nav>
+    </div>          
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+<div class="panel-cover--overlay cover-clear"></div>
+
+</div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title">Effective Objective-C 2.0 第二章 十、在既有类中使用关联对象存放自定义数据</h1>
+    <div class="post-meta"> 
+      <time datetime="2019-05-03 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2019-05-03</time>  
+    </div>
+  </header>
+
+  <section class="post">
+    <p>我之前已经在这篇文章
+<a href="https://www.jianshu.com/p/208d281468c2">iOS runtime 关联对象</a>做了详细介绍。本篇只是简单介绍下。</p>
+
+<h4 id="创建关联对象">创建关联对象：</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void objc_setAssociatedObject(id object, const void *key, id value, objc_AssociationPolicy policy)
+</code></pre></div></div>
+
+<ul>
+  <li>id object：对象</li>
+  <li>const void *key：键</li>
+  <li>id value：值</li>
+  <li>objc_AssociationPolicy policy：内存管理策略</li>
+</ul>
+
+<p>其中内存管理策略是一个枚举，如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>typedef OBJC_ENUM(uintptr_t, objc_AssociationPolicy) {
+    OBJC_ASSOCIATION_ASSIGN = 0,
+    OBJC_ASSOCIATION_RETAIN_NONATOMIC = 1,
+    OBJC_ASSOCIATION_COPY_NONATOMIC = 3,
+    OBJC_ASSOCIATION_RETAIN = 01401,
+    OBJC_ASSOCIATION_COPY = 01403
+};
+</code></pre></div></div>
+
+<h4 id="获取关联对象">获取关联对象：</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>id objc_getAssociatedObject(id object, const void *key)
+</code></pre></div></div>
+
+<h4 id="删除关联对象">删除关联对象：</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void objc_removeAssociatedObjects(id object)
+</code></pre></div></div>
+
+<h2 id="常用用法给类别增加对象">常用用法：给类别增加对象</h2>
+
+<p>给 UILable 新增一个类别 UILable(vj):</p>
+
+<p>UILabel+vj.h:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#import &lt;UIKit/UIKit.h&gt;
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface UILabel (vj)
+
+@property(nonatomic,copy)NSString *name;
+
+@end
+
+NS_ASSUME_NONNULL_END
+</code></pre></div></div>
+
+<p>UILabel+vj.m</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#import "UILabel+vj.h"
+#import "objc/runtime.h"
+
+const void *kNameKey = @"namekey";
+
+@implementation UILabel (vj)
+
+-(NSString *)name{
+   return objc_getAssociatedObject(self, kNameKey);
+}
+
+-(void)setName:(NSString *)name{
+    objc_setAssociatedObject(self, kNameKey, name, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+@end
+</code></pre></div></div>
+
+<p>这样我们就为 UILabel (vj) 新增了 name 属性。</p>
+
+<p>一般我们也用不到关联对象这种写法，当我们需要在对象中存储额外信息时，一般继承一个子类，然后改用这个子类，这是最常用的写法。如非必要还是少用关联对象的写法吧，如果是由它引起的 bug 通常难以查找。</p>
+
+  </section>
+
+</article>
+
+<section>
+
+  <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+  <ul class="pager">
+    
+    <li class="previous">
+      <a href="/2019/05/02/Effective-Objective-C-2.0-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E4%B9%9D-%E4%BB%A5-%E7%B1%BB%E6%97%8F%E6%A8%A1%E5%BC%8F-%E9%9A%90%E8%97%8F%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82.html" data-toggle="tooltip" data-placement="top" title="Effective Objective-C 2.0 第二章 九、以“类族模式”隐藏实现细节">上一篇：  <span>Effective Objective-C 2.0 第二章 九、以“类族模式”隐藏实现细节</span>
+      </a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/05/04/Effective-Objective-C-2.0-%E7%AC%AC%E4%BA%8C%E7%AB%A0-11-%E7%90%86%E8%A7%A3-objc_msgSend-%E7%9A%84%E4%BD%9C%E7%94%A8.html" data-toggle="tooltip" data-placement="top" title="Effective Objective-C 2.0 第二章 11、理解 objc_msgSend 的作用">下一篇：  <span>Effective Objective-C 2.0 第二章 11、理解 objc_msgSend 的作用</span>
+      </a>
+    </li>
+    
+  </ul>
+</section>
+
+
+            <section class="footer">
+  <footer>
+    <div class = "footer_div">  
+      <nav class="cover-navigation navigation--social">
+        <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/Vergil-wj" title="@Vergil-wj 的 Github" target="_blank">
+              <div class="footer-social-icon" style="background:url(/images/github.png);"></div>
+            </a>
+          </li>
+          
+
+          
+          <li class="navigation__item_social">
+            <a href="https://www.jianshu.com/u/3e3ba42c4c63" title="@3e3ba42c4c63" target="_blank">
+              <div class="footer-social-icon" style="background:url(/images/jianshu.jpg);"></div>
+            </a>
+          </li>
+
+          
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:834372189@qq.com" title="Contact me">
+              <div class="footer-social-icon" style="background:url(/images/email.png);"></div>
+            </a>
+          </li>
+          
+          
+        </ul>
+      </nav>
+
+    </div>
+
+    <div class = "footer_div">  
+
+      <div align="center">
+        <p class="copyright text-muted">
+          Copyright &copy; Vergil 2019
+        </p>
+        <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+      </div>
+
+    </div>
+  </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>

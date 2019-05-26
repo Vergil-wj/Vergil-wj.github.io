@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>Effective Objective-C 2.0 第二章 八、理解对象等同性这一概念</title>
+  <meta name="description" content="比较两个对象相等时，我们可以使用==操作符和isEqual:两个方法。不过按照==操作符比较出来的结果未必使我们想要的，因为该操作比较的是两个指针本身，而不是它指向的对象。">
+  <meta name="author" content="leopardpan">
+
+  <!-- <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Effective Objective-C 2.0 第二章 八、理解对象等同性这一概念">
+  <meta name="twitter:description" content="比较两个对象相等时，我们可以使用==操作符和isEqual:两个方法。不过按照==操作符比较出来的结果未必使我们想要的，因为该操作比较的是两个指针本身，而不是它指向的对象。"> -->
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Effective Objective-C 2.0 第二章 八、理解对象等同性这一概念">
+  <meta property="og:description" content="比较两个对象相等时，我们可以使用==操作符和isEqual:两个方法。不过按照==操作符比较出来的结果未必使我们想要的，因为该操作比较的是两个指针本身，而不是它指向的对象。">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2019/05/01/Effective-Objective-C-2.0-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%85%AB-%E7%90%86%E8%A7%A3%E5%AF%B9%E8%B1%A1%E7%AD%89%E5%90%8C%E6%80%A7%E8%BF%99%E4%B8%80%E6%A6%82%E5%BF%B5.html">
+  <link rel="alternate" type="application/rss+xml" title="Vergil" href="http://localhost:4000/feed.xml">
+  
+  <!-- <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" /> -->
+
+
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+        <div class="panel-main__content">
+            <!-- 头像效果-start -->
+            <div class="ih-item circle effect right_to_left">            
+                <a href="/#blog" title="前往 Vergil 的主页" class="blog-button">
+                    <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                    <div class="info">
+                        <div class="info-back">
+                            <h2> 
+                                
+                                Vergil
+                                
+                            </h2>
+                            <p>
+                             
+                             iOS
+                             
+                         </p>
+                     </div>
+                 </div>
+             </a>
+         </div>
+         <!-- 头像效果-end -->
+         <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for Vergil" class="blog-button">Vergil</a></h1>
+
+         
+         <span class="panel-cover__subtitle panel-subtitle">iOS 开发者</span>
+         
+
+         <hr class="panel-cover__divider" />
+         <p class="panel-cover__description">我用双手成就你的梦想！</p>
+         <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+         
+
+
+         <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+            </ul>
+        </nav>
+    </div>          
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+<div class="panel-cover--overlay cover-clear"></div>
+
+</div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title">Effective Objective-C 2.0 第二章 八、理解对象等同性这一概念</h1>
+    <div class="post-meta"> 
+      <time datetime="2019-05-01 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2019-05-01</time>  
+    </div>
+  </header>
+
+  <section class="post">
+    <p>比较两个对象相等时，我们可以使用<code class="highlighter-rouge">==</code>操作符和<code class="highlighter-rouge">isEqual:</code>两个方法。不过按照<code class="highlighter-rouge">==</code>操作符比较出来的结果未必使我们想要的，因为该操作比较的是两个指针本身，而不是它指向的对象。</p>
+
+<p>比较两个字符串相等时，我们可以用以下方法：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NSString *foo = @"Badger 123";  
+NSString *bar = [NSStringstringWithFormat:@"Badger %i", 123];  
+BOOL equalA = (foo == bar); // NO 
+BOOL equalB = [foo isEqual:bar]; // YES 
+BOOL equalC = [foo isEqualToString:bar]; // YES 
+</code></pre></div></div>
+
+<p>我们可以看到<code class="highlighter-rouge">==</code>方法得出的结果不是我们想要的，其中<code class="highlighter-rouge">isEqualToString:</code>是 NSString 独有的，调用该方法比调用<code class="highlighter-rouge">isEqual:</code>快，因为该方法知道两个比较对象的类型，而<code class="highlighter-rouge">isEqual:</code>不知道两个比较对象的类型。类似的还有 NSArray 和 NSDictionary 也有独自等同性判断方法：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>isEqualToString ：NSString 类独有的等同性判断方法。
+
+isEqualToArray：数组类独有的等同性判断方法。
+
+isEqualToDictionary：字典类独有的等同性判断方法。
+</code></pre></div></div>
+
+<h2 id="isequal-与-hash">isEqual 与 hash</h2>
+
+<p>在 NSObject 类中有两个用于判断等同性的关键方法：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (BOOL)isEqual:(id)object;  
++ (NSUInteger)hash; 
+</code></pre></div></div>
+
+<p>NSObject 类对这两个方法的默认实现是：当且仅当其“指针值”（pointer value）完全相等时，这两个对象才相等。</p>
+
+<p>如果我们想要覆写这两个方法，得先理解：</p>
+
+<blockquote>
+  <p>如果<code class="highlighter-rouge">isEqual:</code>方法判定两个对象相等，那么其 hash 方法也必须返回同一个值。但是，如果两个对象的 hash 方法返回同一个值，那么<code class="highlighter-rouge">isEqual:</code>方法未必会认为两者相等。</p>
+</blockquote>
+
+<h3 id="覆写-isequal">覆写 isEqual</h3>
+
+<p>比如有下面这个类：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@interface EOCPerson : NSObject  
+@property (nonatomic, copy) NSString *firstName;  
+@property (nonatomic, copy) NSString *lastName;  
+@property (nonatomic, assign) NSUInteger age;  
+@end 
+</code></pre></div></div>
+
+<p>那么判断另一个类是否与这个类相等，需要这么写：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (BOOL)isEqual:(id)object {  
+    if (self == object) return YES;  
+    if ([self class] != [object class]) return NO;  
+ 
+    EOCPerson *otherPerson = (EOCPerson*)object;  
+    if (![_firstName isEqualToString:otherPerson.firstName])  
+        return NO;  
+    if (![_lastName isEqualToString:otherPerson.lastName])  
+        return NO;  
+    if (_age != otherPerson.age)  
+        return NO;  
+    return YES;  
+} 
+</code></pre></div></div>
+
+<p>其判断过程是：</p>
+
+<p>1、 判断两个指针是否相等，若相等，则均指向同一个对象，所以受测对象必定相等。</p>
+
+<p>2、 比较两对象所属的类。若不属于同一个类，则两对象不相等。</p>
+
+<p>3、最后，检测每个属性是否相等。只要其中有不相等的属性，就判定两对象不等，否则两对象相等。</p>
+
+<h3 id="覆写-hash">覆写 hash</h3>
+
+<p>上面提到，若两个对象相等，则它们的 hash 一定相等；但 hash 相等的两个对象，它们未必相等。即 hash 相等时两个对象相等的必要不充分条件。</p>
+
+<p>如果我们覆写 hash 的话，下面这么写是完全可以的：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (NSUInteger)hash {  
+    return 1337;  
+} 
+</code></pre></div></div>
+
+<p>都返回同一个 hash，但这么写在 collection 中会产生性能问题。因为 collection 在检索哈希表（hash table）时，会用对象的哈希码做索引。假如某个 collection 是用 set 实现的，那么 set 可能会根据哈希码把对象分装到不同的数组中。在向 set 中添加新对象时，要根据其哈希码找到与之相关的那个数组，依次检查其中各个元素，看数组中已有的对象是否和将要添加的新对象相等。如果相等，那就说明要添加的对象已经在 set 里面了。由此可知，如果令每个对象都返回相同的哈希码，那么在 set 中已有 1?000?000 个对象的情况下，若是继续向其中添加对象，则需将这 1?000?000 个对象全部扫描一遍。</p>
+
+<p>hash 还可以这么实现：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (NSUInteger)hash {  
+    NSString *stringToHash =  
+        [NSStringstringWithFormat:@"%@:%@:%i",  
+            _firstName, _lastName, _age];  
+    return [stringToHash hash];  
+} 
+</code></pre></div></div>
+
+<p>但是这样做还需负担创建字符串的开销，所以比返回单一值要慢。把这种对象添加到 collection 中时，也会产生性能问题，因为要想添加，必须先计算其哈希码。</p>
+
+<p>再来看最后一种计算哈希码的办法：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (NSUInteger)hash {  
+    NSUInteger firstNameHash = [_firstName hash];  
+    NSUInteger lastNameHash = [_lastName hash];  
+    NSUInteger ageHash = _age;  
+    return firstNameHash ^ lastNameHash ^ ageHash;  
+} 
+</code></pre></div></div>
+
+<p>这种做法既能保持较高效率，又能使生成的哈希码至少位于一定范围之内，而不会过于频繁地重复。编写 hash 方法时，应该用当前的对象做做实验，以便在减少碰撞频度与降低运算复杂程度之间取舍。</p>
+
+<h2 id="等同性判定的执行深度">等同性判定的执行深度</h2>
+
+<p>创建等同性判定方法时，需要决定是根据整个对象来判断等同性，还是仅根据其中几个字段来判断。NSArray 的检测方式为先看两个数组所含对象个数是否相同，若相同，则在每个对应位置的两个对象身上调用其<code class="highlighter-rouge">isEqual:</code>方法。如果对应位置上的对象均相等，那么这两个数组就相等，这叫做“深度等同性判定”（deep equality）。不过有时候无须将所有数据逐个比较，只根据其中部分数据即可判明二者是否等同。</p>
+
+<p>是否需要在等同性判定方法中检测全部字段取决于受测对象。只有类的编写者才可以确定两个对象实例在何种情况下应判定为相等。</p>
+
+<p>比方说，我们假设EOCPerson类的实例是根据数据库里的数据创建而来，那么其中就可能会含有另外一个属性，此属性是“唯一标识符”（unique identifier），在数据库中用作“主键”（primary key）:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@property NSUInteger identifier; 
+</code></pre></div></div>
+
+<p>在这种情况下，我们也许只会根据标识符来判断等同性，尤其是在此属性声明为readonly 时更应该如此。因为只要两者标识符相同，就肯定表示同一个对象，因而必然相等。这样的话，无须逐个比较 EOCPerson 对象的每条数据，只要标识符相同，就说明这两个对象就是由同一个数据源所创建的，据此我们能够断定，其余数据也必然相同。</p>
+
+<h2 id="小结">小结</h2>
+
+<ul>
+  <li>
+    <p>若想检测对象的等同性，请提供“isEqual: ”与hash方法。</p>
+  </li>
+  <li>
+    <p>相同的对象必须具有相同的哈希码，但是两个哈希码相同的对象却未必相同。</p>
+  </li>
+  <li>
+    <p>不要盲目地逐个检测每条属性，而是应该依照具体需求来制定检测方案。</p>
+  </li>
+  <li>
+    <p>编写hash方法时，应该使用计算速度快而且哈希码碰撞几率低的算法。</p>
+  </li>
+</ul>
+
+  </section>
+
+</article>
+
+<section>
+
+  <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+  <ul class="pager">
+    
+    <li class="previous">
+      <a href="/2019/04/30/Effective-Objective-C-2.0-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E4%B8%83-%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%86%85%E9%83%A8%E5%B0%BD%E9%87%8F%E7%9B%B4%E6%8E%A5%E8%AE%BF%E9%97%AE%E5%AE%9E%E4%BE%8B%E5%8F%98%E9%87%8F.html" data-toggle="tooltip" data-placement="top" title="Effective Objective-C 2.0 第二章 七、在对象内部尽量直接访问实例变量">上一篇：  <span>Effective Objective-C 2.0 第二章 七、在对象内部尽量直接访问实例变量</span>
+      </a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/05/02/Effective-Objective-C-2.0-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E4%B9%9D-%E4%BB%A5-%E7%B1%BB%E6%97%8F%E6%A8%A1%E5%BC%8F-%E9%9A%90%E8%97%8F%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82.html" data-toggle="tooltip" data-placement="top" title="Effective Objective-C 2.0 第二章 九、以“类族模式”隐藏实现细节">下一篇：  <span>Effective Objective-C 2.0 第二章 九、以“类族模式”隐藏实现细节</span>
+      </a>
+    </li>
+    
+  </ul>
+</section>
+
+
+            <section class="footer">
+  <footer>
+    <div class = "footer_div">  
+      <nav class="cover-navigation navigation--social">
+        <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/Vergil-wj" title="@Vergil-wj 的 Github" target="_blank">
+              <div class="footer-social-icon" style="background:url(/images/github.png);"></div>
+            </a>
+          </li>
+          
+
+          
+          <li class="navigation__item_social">
+            <a href="https://www.jianshu.com/u/3e3ba42c4c63" title="@3e3ba42c4c63" target="_blank">
+              <div class="footer-social-icon" style="background:url(/images/jianshu.jpg);"></div>
+            </a>
+          </li>
+
+          
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:834372189@qq.com" title="Contact me">
+              <div class="footer-social-icon" style="background:url(/images/email.png);"></div>
+            </a>
+          </li>
+          
+          
+        </ul>
+      </nav>
+
+    </div>
+
+    <div class = "footer_div">  
+
+      <div align="center">
+        <p class="copyright text-muted">
+          Copyright &copy; Vergil 2019
+        </p>
+        <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+      </div>
+
+    </div>
+  </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>

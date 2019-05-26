@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>NSlog 输出格式</title>
+  <meta name="description" content=" %@           OC对象">
+  <meta name="author" content="leopardpan">
+
+  <!-- <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="NSlog 输出格式">
+  <meta name="twitter:description" content=" %@           OC对象"> -->
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="NSlog 输出格式">
+  <meta property="og:description" content=" %@           OC对象">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2019/05/18/NSlog-%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F.html">
+  <link rel="alternate" type="application/rss+xml" title="Vergil" href="http://localhost:4000/feed.xml">
+  
+  <!-- <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" /> -->
+
+
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+        <div class="panel-main__content">
+            <!-- 头像效果-start -->
+            <div class="ih-item circle effect right_to_left">            
+                <a href="/#blog" title="前往 Vergil 的主页" class="blog-button">
+                    <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                    <div class="info">
+                        <div class="info-back">
+                            <h2> 
+                                
+                                Vergil
+                                
+                            </h2>
+                            <p>
+                             
+                             iOS
+                             
+                         </p>
+                     </div>
+                 </div>
+             </a>
+         </div>
+         <!-- 头像效果-end -->
+         <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for Vergil" class="blog-button">Vergil</a></h1>
+
+         
+         <span class="panel-cover__subtitle panel-subtitle">iOS 开发者</span>
+         
+
+         <hr class="panel-cover__divider" />
+         <p class="panel-cover__description">我用双手成就你的梦想！</p>
+         <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+         
+
+
+         <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+            </ul>
+        </nav>
+    </div>          
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+<div class="panel-cover--overlay cover-clear"></div>
+
+</div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title">NSlog 输出格式</h1>
+    <div class="post-meta"> 
+      <time datetime="2019-05-18 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2019-05-18</time>  
+    </div>
+  </header>
+
+  <section class="post">
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> %@           OC对象
+
+ %d,%i        整型 (%i的老写法)
+ 
+ %hd          短整型
+ 
+ %ld,%lld     长整型
+ 
+ %u           无符整型
+ 
+ %f           浮点型和double型
+ 
+ %0.2f        精度浮点数，只保留两位小数
+ 
+ %x:       为32位的无符号整型数(unsigned int),打印使用数字0-9的十六进制,小写a-f;
+ 
+ %X:       为32位的无符号整型数(unsigned int),打印使用数字0-9的十六进制,大写A-F;
+ 
+ %o            八进制
+ 
+ %zu/%zd       size_t/NSInteger
+ 
+ %p            指针地址
+ 
+ %e            float/double（科学计数）
+ 
+ %g            float/double（科学计数）
+ 
+ %s            char *  字符串
+ 
+ %.*s          Pascal字符串
+ 
+ %c            char 字符
+ 
+ %C            unichar
+ 
+ %Lf           64位double
+ 
+ %lu           sizeof(i)内存中所占字节数
+</code></pre></div></div>
+
+<p>几种不同的打印函数</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NSLog(&lt;#NSString * _Nonnull format, ...#&gt;)     --&gt; OC
+printf(&lt;#const char *restrict, ...#&gt;)          --&gt; C
+CFShow(&lt;#CFTypeRef obj#&gt;)                      --&gt; Core Foundation
+CFShowStr(&lt;#CFStringRef str#&gt;)                 --&gt; Core Foundation
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NSLog(@"当前方法名：%@",NSStringFromSelector(_cmd));
+NSLog(@"当前方法名: %s",sel_getName(_cmd));
+NSLog(@"[类 方法]：%s",__func__);
+NSLog(@"[类 方法]：%s",__FUNCTION__);
+NSLog(@"当前类名：%@",NSStringFromClass([self class]));
+NSLog(@"当前行号：%d",__LINE__);
+NSLog(@"当前文件存储路径：%s",__FILE__);
+NSString *pathStr = [NSString stringWithCString:__FILE__ encoding:NSUTF8StringEncoding]; //将CString -&gt; NSString
+NSLog(@"当前文件名：%@",[pathStr lastPathComponent]);
+
+NSLog(@"当前日期：%s",__DATE__);
+NSLog(@"当前时间：%s",__TIME__);
+NSLog(@"当前App运行要求的最低ios版本：%d",__IPHONE_OS_VERSION_MIN_REQUIRED);  //Develop Target: 已选8.0
+NSLog(@"当前App支持的最高ios版本：%d",__IPHONE_OS_VERSION_MAX_ALLOWED);    //Develop Target: 最高9.0
+NSLog(@"打印__IPHONE_7_0：%d",__IPHONE_7_0);  //打印ios7.0
+    
+NSLog(@"当前线程：%@",[NSThread currentThread]);
+NSLog(@"主线程：%@",[NSThread mainThread]);
+NSLog(@"当前栈信息：%@", [NSThread callStackSymbols]);
+</code></pre></div></div>
+
+<p>参考资料：</p>
+
+<p><a href="https://www.cnblogs.com/stevenwuzheng/p/5485986.html">https://www.cnblogs.com/stevenwuzheng/p/5485986.html</a></p>
+
+  </section>
+
+</article>
+
+<section>
+
+  <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+  <ul class="pager">
+    
+    <li class="previous">
+      <a href="/2019/05/16/Effective-Objective-C-2.0-%E7%AC%AC%E5%85%AD%E7%AB%A0-%E5%9D%97%E4%B8%8E%E5%A4%A7%E4%B8%AD%E6%9E%A2%E6%B4%BE%E5%8F%91(%E4%B8%80).html" data-toggle="tooltip" data-placement="top" title="Effective Objective-C 2.0 第六章 块与大中枢派发(一)">上一篇：  <span>Effective Objective-C 2.0 第六章 块与大中枢派发(一)</span>
+      </a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/05/22/Effective-Objective-C-2.0-%E7%AC%AC%E5%85%AD%E7%AB%A0-%E5%9D%97%E4%B8%8E%E5%A4%A7%E4%B8%AD%E6%9E%A2%E6%B4%BE%E5%8F%91(%E4%BA%8C).html" data-toggle="tooltip" data-placement="top" title="Effective Objective-C 2.0 第六章 块与大中枢派发(二)">下一篇：  <span>Effective Objective-C 2.0 第六章 块与大中枢派发(二)</span>
+      </a>
+    </li>
+    
+  </ul>
+</section>
+
+
+            <section class="footer">
+  <footer>
+    <div class = "footer_div">  
+      <nav class="cover-navigation navigation--social">
+        <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/Vergil-wj" title="@Vergil-wj 的 Github" target="_blank">
+              <div class="footer-social-icon" style="background:url(/images/github.png);"></div>
+            </a>
+          </li>
+          
+
+          
+          <li class="navigation__item_social">
+            <a href="https://www.jianshu.com/u/3e3ba42c4c63" title="@3e3ba42c4c63" target="_blank">
+              <div class="footer-social-icon" style="background:url(/images/jianshu.jpg);"></div>
+            </a>
+          </li>
+
+          
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:834372189@qq.com" title="Contact me">
+              <div class="footer-social-icon" style="background:url(/images/email.png);"></div>
+            </a>
+          </li>
+          
+          
+        </ul>
+      </nav>
+
+    </div>
+
+    <div class = "footer_div">  
+
+      <div align="center">
+        <p class="copyright text-muted">
+          Copyright &copy; Vergil 2019
+        </p>
+        <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+      </div>
+
+    </div>
+  </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>

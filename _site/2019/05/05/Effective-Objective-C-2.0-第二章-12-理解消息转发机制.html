@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>Effective Objective-C 2.0 第二章 12、理解消息转发机制</title>
+  <meta name="description" content="详细分析请看我之前这篇文章：iOS runtime 消息机制及消息转发。本篇对书中内容做简要介绍。">
+  <meta name="author" content="leopardpan">
+
+  <!-- <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Effective Objective-C 2.0 第二章 12、理解消息转发机制">
+  <meta name="twitter:description" content="详细分析请看我之前这篇文章：iOS runtime 消息机制及消息转发。本篇对书中内容做简要介绍。"> -->
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Effective Objective-C 2.0 第二章 12、理解消息转发机制">
+  <meta property="og:description" content="详细分析请看我之前这篇文章：iOS runtime 消息机制及消息转发。本篇对书中内容做简要介绍。">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2019/05/05/Effective-Objective-C-2.0-%E7%AC%AC%E4%BA%8C%E7%AB%A0-12-%E7%90%86%E8%A7%A3%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%E6%9C%BA%E5%88%B6.html">
+  <link rel="alternate" type="application/rss+xml" title="Vergil" href="http://localhost:4000/feed.xml">
+  
+  <!-- <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" /> -->
+
+
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+        <div class="panel-main__content">
+            <!-- 头像效果-start -->
+            <div class="ih-item circle effect right_to_left">            
+                <a href="/#blog" title="前往 Vergil 的主页" class="blog-button">
+                    <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                    <div class="info">
+                        <div class="info-back">
+                            <h2> 
+                                
+                                Vergil
+                                
+                            </h2>
+                            <p>
+                             
+                             iOS
+                             
+                         </p>
+                     </div>
+                 </div>
+             </a>
+         </div>
+         <!-- 头像效果-end -->
+         <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for Vergil" class="blog-button">Vergil</a></h1>
+
+         
+         <span class="panel-cover__subtitle panel-subtitle">iOS 开发者</span>
+         
+
+         <hr class="panel-cover__divider" />
+         <p class="panel-cover__description">我用双手成就你的梦想！</p>
+         <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+         
+
+
+         <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+            </ul>
+        </nav>
+    </div>          
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+<div class="panel-cover--overlay cover-clear"></div>
+
+</div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title">Effective Objective-C 2.0 第二章 12、理解消息转发机制</h1>
+    <div class="post-meta"> 
+      <time datetime="2019-05-05 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2019-05-05</time>  
+    </div>
+  </header>
+
+  <section class="post">
+    <p>详细分析请看我之前这篇文章：
+<a href="https://www.jianshu.com/p/a7e365f197fb">iOS runtime 消息机制及消息转发</a>。本篇对书中内容做简要介绍。</p>
+
+<p>若想令类能理解某条消息，我们必须以程序码实现出对应的方法才行。但是，在编译期向类发送了其无法解读的消息并不会报错，因为在运行期可以继续向类中添加方法，所以编译器在编译时还无法确知类中到底会不会有某个方法实现。当对象接收到无法解读的消息后，就会启动“消息转发”（message forwarding）机制，程序员可经由此过程告诉对象应该如何处理未知消息。</p>
+
+<p>下面是整个消息转发流程图：</p>
+
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79ly1g233sf3nzuj30jg0b4q3g.jpg" alt="" /></p>
+
+<p>对象在收到无法解读的消息后，首先将调用其所属类的下列类方法：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+ (BOOL) resolveInstanceMethod:(SEL)aSEL
+</code></pre></div></div>
+
+<p>这是第一次机会，我们可以在此处为未知消息新增一个处理方法。如果此处我们没有处理，则会调用以下方法：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (id)forwardingTargetForSelector:(SEL)aSelector
+</code></pre></div></div>
+
+<p>这是第二次机会，交给其它类处理，可以将未知消息重定向给另一个拥有相同方法的对象。如果此处我们依然没有处理，则会调用：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (void)forwardInvocation:(NSInvocation *)anInvocation
+</code></pre></div></div>
+
+<p>这里是最后一次机会。首先创建NSInvocation对象，把与尚未处理的那条消息有关的全部细节都封于其中。此对象包含选择子、目标（target）及参数。在触发NSInvocation对象时，“消息派发系统”（message-dispatch system）将亲自出马，把消息指派给目标对象。</p>
+
+<p>最后这个方法可以实现得很简单：只需改变调用目标，使消息在新目标上得以调用即可。然而这样实现出来的方法与第二次机会方案所实现的方法等效，所以没必要在此方法中这么使用。比较有用的实现方式为：在触发消息前，先以某种方式改变消息内容，比如追加另外一个参数，或是改换选择子，等等。</p>
+
+<p>接收者在每一步中均有机会处理消息。步骤越往后，处理消息的代价就越大。最好能在第一步就处理完，这样的话，运行期系统就可以将此方法缓存起来了。如果这个类的实例稍后还收到同名选择子，那么根本无须启动消息转发流程。若想在第三步里把消息转给备援的接收者，那还不如把转发操作提前到第二步。因为第三步只是修改了调用目标，这项改动放在第二步执行会更为简单，不然的话，还得创建并处理完整的NSInvocation。</p>
+
+<h2 id="总结">总结</h2>
+
+<p>若对象无法响应某个选择子，则进入消息转发流程。</p>
+
+<p>通过运行期的动态方法解析功能，我们可以在需要用到某个方法时再将其加入类中。</p>
+
+<p>对象可以把其无法解读的某些选择子转交给其他对象来处理。</p>
+
+<p>经过上述两步之后，如果还是没办法处理选择子，那就启动完整的消息转发机制。</p>
+
+
+  </section>
+
+</article>
+
+<section>
+
+  <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+  <ul class="pager">
+    
+    <li class="previous">
+      <a href="/2019/05/04/Effective-Objective-C-2.0-%E7%AC%AC%E4%BA%8C%E7%AB%A0-11-%E7%90%86%E8%A7%A3-objc_msgSend-%E7%9A%84%E4%BD%9C%E7%94%A8.html" data-toggle="tooltip" data-placement="top" title="Effective Objective-C 2.0 第二章 11、理解 objc_msgSend 的作用">上一篇：  <span>Effective Objective-C 2.0 第二章 11、理解 objc_msgSend 的作用</span>
+      </a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/05/06/Effective-Objective-C-2.0-%E7%AC%AC%E4%BA%8C%E7%AB%A0-13-%E7%94%A8-%E6%96%B9%E6%B3%95%E8%B0%83%E9%85%8D%E6%8A%80%E6%9C%AF-%E8%B0%83%E8%AF%95-%E9%BB%91%E7%9B%92%E6%96%B9%E6%B3%95.html" data-toggle="tooltip" data-placement="top" title="Effective Objective-C 2.0 第二章 13、用“方法调配技术”调试“黑盒方法”">下一篇：  <span>Effective Objective-C 2.0 第二章 13、用“方法调配技术”调试“黑盒方法”</span>
+      </a>
+    </li>
+    
+  </ul>
+</section>
+
+
+            <section class="footer">
+  <footer>
+    <div class = "footer_div">  
+      <nav class="cover-navigation navigation--social">
+        <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/Vergil-wj" title="@Vergil-wj 的 Github" target="_blank">
+              <div class="footer-social-icon" style="background:url(/images/github.png);"></div>
+            </a>
+          </li>
+          
+
+          
+          <li class="navigation__item_social">
+            <a href="https://www.jianshu.com/u/3e3ba42c4c63" title="@3e3ba42c4c63" target="_blank">
+              <div class="footer-social-icon" style="background:url(/images/jianshu.jpg);"></div>
+            </a>
+          </li>
+
+          
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:834372189@qq.com" title="Contact me">
+              <div class="footer-social-icon" style="background:url(/images/email.png);"></div>
+            </a>
+          </li>
+          
+          
+        </ul>
+      </nav>
+
+    </div>
+
+    <div class = "footer_div">  
+
+      <div align="center">
+        <p class="copyright text-muted">
+          Copyright &copy; Vergil 2019
+        </p>
+        <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+      </div>
+
+    </div>
+  </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>

@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>Effective Objective-C 2.0 第三章 接口与 API 设计</title>
+  <meta name="description" content="第 15 条：用前缀避免命名空间冲突">
+  <meta name="author" content="leopardpan">
+
+  <!-- <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Effective Objective-C 2.0 第三章 接口与 API 设计">
+  <meta name="twitter:description" content="第 15 条：用前缀避免命名空间冲突"> -->
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Effective Objective-C 2.0 第三章 接口与 API 设计">
+  <meta property="og:description" content="第 15 条：用前缀避免命名空间冲突">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2019/05/13/Effective-Objective-C-2.0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%8E%A5%E5%8F%A3%E4%B8%8E-API-%E8%AE%BE%E8%AE%A1.html">
+  <link rel="alternate" type="application/rss+xml" title="Vergil" href="http://localhost:4000/feed.xml">
+  
+  <!-- <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" /> -->
+
+
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+        <div class="panel-main__content">
+            <!-- 头像效果-start -->
+            <div class="ih-item circle effect right_to_left">            
+                <a href="/#blog" title="前往 Vergil 的主页" class="blog-button">
+                    <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                    <div class="info">
+                        <div class="info-back">
+                            <h2> 
+                                
+                                Vergil
+                                
+                            </h2>
+                            <p>
+                             
+                             iOS
+                             
+                         </p>
+                     </div>
+                 </div>
+             </a>
+         </div>
+         <!-- 头像效果-end -->
+         <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for Vergil" class="blog-button">Vergil</a></h1>
+
+         
+         <span class="panel-cover__subtitle panel-subtitle">iOS 开发者</span>
+         
+
+         <hr class="panel-cover__divider" />
+         <p class="panel-cover__description">我用双手成就你的梦想！</p>
+         <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+         
+
+
+         <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+            </ul>
+        </nav>
+    </div>          
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+<div class="panel-cover--overlay cover-clear"></div>
+
+</div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title">Effective Objective-C 2.0 第三章 接口与 API 设计</h1>
+    <div class="post-meta"> 
+      <time datetime="2019-05-13 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date">2019-05-13</time>  
+    </div>
+  </header>
+
+  <section class="post">
+    <h2 id="第-15-条用前缀避免命名空间冲突">第 15 条：用前缀避免命名空间冲突</h2>
+
+<p>1、选择与你的公司、应用程序或二者皆有关联之名称作为类名的前缀，并在所有代码中使用这一前缀。</p>
+
+<p>Apple 宣称其保留使用所有“两字母前缀”的权利，所以我们使用前缀时候最好是三个字母的。举个例子，假如开发者不遵守这条守则，使用 TW 这两个字母作为前缀，那么就会出现问题。iOS 5.0 SDK 发布时，包含 Twitter 框架，此框架就使用 TW 作前缀，其中有个类叫做 TWRequest，它可以发送 HTTP 请求以调用 Twitter API。如果你所在的公司叫做 Tiny Widgets，那么很有那可能把访问本公司 API 所用的那个类也命名为 TWRequest。</p>
+
+<p>2、若自己所开发的程序中用到了第三方库，并准备将其发布为程序库供他人开发应用，则应为其中的名称加上前缀。</p>
+
+<h2 id="第-16-条提供全能初始化方法">第 16 条：提供“全能初始化方法”</h2>
+
+<p>“designated initializer” 直译为 “指定初始化方法”，本书译为”全能初始化方法”。</p>
+
+<p>就是提供必要信息的初始化方法。如果创建类实例的方式不止一种，那么这个类就会有多个初始化方法，我们需要选定一个作为全能初始化方法，令其它初始化方法都来调用他。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@interface YXRectangle : NSObject
+@property (nonatomic,readonly) float width;
+@property (nonatomic,readonly) float height;
+- (instancetype)initWithWidth:(CGFloat)width height:(CGFloat)height;
+@end
+@implementation YXRectangle
+
+- (instancetype)init{
+    return [self initWithWidth:500 height:600];
+}
+
+- (instancetype)initWithWidth:(CGFloat)width height:(CGFloat)height{
+    self = [super init];
+    if (self) {
+        _width = width;
+        _height = height;
+    }
+    return self;
+}
+@end
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">-(instancetype)initWithWidth:(CGFloat)width height:(CGFloat)height</code>这个方法就是全能初始化方法。这个类的所有初始化方法最终都会通过全能初始化方法创建。</p>
+
+<h3 id="子类的初始化方式">子类的初始化方式：</h3>
+
+<p>比如我们创建一个正方形的子类 YXSquare</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@interface YXSquare : YXRectangle
+- (instancetype)initWithDimension:(CGFloat)dimension;
+@end
+@implementation YXSquare
+
+- (instancetype)initWithDimension:(CGFloat)dimension{
+   return  [super initWithWidth:dimension height:dimension];
+}
+
+//要阻止子类直接调用父类的全能初始化方式，这样有可能出现长宽不等的情况。
+- (instancetype)initWithWidth:(CGFloat)width height:(CGFloat)height{
+    @throw  [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Must be use initWithDimension :instead" userInfo:nil];
+}
+
+//如果不重写的话，使用者可能会使用 init 创建实例，这样会调用父类的 init 方法，可能会出现长宽不等的情况，所以需要重写。
+-(instancetype)init{
+    return [self initWithDimension:500];
+}
+@end
+</code></pre></div></div>
+
+<h3 id="存在两个全能初始化方法">存在两个全能初始化方法</h3>
+
+<p>对象实例有两种完全不同的创建方式，必须分开处理，就会出现这种情况。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (id)initWithCoder:(NSCoder *)decoder;
+</code></pre></div></div>
+
+<p>我们在实现此方法时一般不调用平常所使用的那个全能初始化方法，因为该方法要通过”解码器”(decoder)将对象数据解压缩，所以和普通的初始化方法不同。因此，严格的说，在这种情况下出现了两个全能初始化方法。</p>
+
+<p>具体到父类 YXRectangle 代码就是：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@interface YXRectangle : NSObject
+@property (nonatomic,readonly) float width;
+@property (nonatomic,readonly) float height;
+- (instancetype)initWithWidth:(CGFloat)width height:(CGFloat)height;
+@end
+@implementation YXRectangle
+
+- (instancetype)init{
+    return [self initWithWidth:500 height:600];
+}
+
+- (instancetype)initWithWidth:(CGFloat)width height:(CGFloat)height{
+    self = [super init];
+    if (self) {
+        _width = width;
+        _height = height;
+    }
+    return self;
+}
+
+-(id)initWithCoder:(NSCoder *)decoder{
+	if(self = [super init]){
+		_width = [decoder decodeFloatForKey:@"width"];
+		_height = [decoder decodeFloatForKey:@"height"];
+	}
+	return self;
+}
+
+@end
+</code></pre></div></div>
+
+<p>子类 YXSquare：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@interface YXSquare : YXRectangle
+- (instancetype)initWithDimension:(CGFloat)dimension;
+@end
+@implementation YXSquare
+
+- (instancetype)initWithDimension:(CGFloat)dimension{
+   return  [super initWithWidth:dimension height:dimension];
+}
+
+//要阻止子类直接调用父类的全能初始化方式，这样有可能出现长宽不等的情况。
+- (instancetype)initWithWidth:(CGFloat)width height:(CGFloat)height{
+    @throw  [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Must be use initWithDimension :instead" userInfo:nil];
+}
+
+//如果不重写的话，使用者可能会使用 init 创建实例，这样会调用父类的 init 方法，可能会出现长宽不等的情况，所以需要重写。
+-(instancetype)init{
+    return [self initWithDimension:500];
+}
+
+-(id)initWithCoder:(NSCoder *)decoder{
+	if((self = [super initWithCoder:decoder])){
+		//YXSquare's specific initializer
+	}
+	return self;
+}
+
+@end
+</code></pre></div></div>
+
+<p>每个子类的全能初始化方法都应该调用其超类的对应方法，并逐层向上，实现<code class="highlighter-rouge">initWithCoder:</code>时也要这样，应该先调用超类的相关方法，然后再执行与本类有关的任务。这样编写出来的 YXSquare 类就完全遵守 NSCoding 协议了(fully NSCoding compliant)。如果编写<code class="highlighter-rouge">initWithCoder:</code>方法时没有调用超类的同名方法，而是调用了自制的初始化方法，或是超类的其他初始化方法，那么 YXSquare 类的<code class="highlighter-rouge">initWithCoder:</code>方法就没机会执行，于是，也就无法将 _width 及 _height 这两个实例变量解码了。</p>
+
+<h3 id="要点">要点</h3>
+
+<ul>
+  <li>在类中提供一个全能初始化方法，并于文档里指明。其他初始化方法均应调用此方法。</li>
+  <li>若全能初始化方法与超类不同，则需覆写超类中的对应方法。</li>
+  <li>如果超类的初始化方法不适用于子类，那么应该覆写这个超类方法，并在其中抛出异常。</li>
+</ul>
+
+<h2 id="第-17-条-实现-description-方法">第 17 条 实现 description 方法</h2>
+
+<p>我们自定义一个类 TestObject：</p>
+
+<p>TestObject.h</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#import &lt;Foundation/Foundation.h&gt;
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface TestObject : NSObject
+
+@property(nonatomic,copy)NSString *name;
+
+-(instancetype)initWithName:(NSString *)name;
+
+@end
+
+NS_ASSUME_NONNULL_END
+</code></pre></div></div>
+
+<p>TestObject.m</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#import "TestObject.h"
+
+@implementation TestObject
+
+-(instancetype)initWithName:(NSString *)name{
+    if (self = [super init]) {
+        _name = [name copy];
+    }
+    return self;
+}
+
+@end
+</code></pre></div></div>
+
+<p>我们打印查看对象信息时：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>TestObject *obj = [[TestObject alloc]initWithName:@"Bob"];
+NSLog(@"obj = %@",obj);
+</code></pre></div></div>
+
+<p>输出：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>obj = &lt;TestObject: 0x283880010&gt;
+</code></pre></div></div>
+
+<p>我们只能看到类名和对象地址，得不到我们想要的信息。这时候想要看到更详细的信息，需要重写<code class="highlighter-rouge">-(NSString *)description</code>方法。在 TestObject.m 中，改为：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#import "TestObject.h"
+
+@implementation TestObject
+
+-(instancetype)initWithName:(NSString *)name{
+    if (self = [super init]) {
+        _name = [name copy];
+    }
+    return self;
+}
+
+-(NSString *)description{
+    return [NSString stringWithFormat:@"&lt;%@: %p, %@&gt;",
+            [self class],
+            self,
+            @{@"name":_name}];
+}
+
+@end
+
+</code></pre></div></div>
+
+<p>此时再次运行，控制台输出：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>obj = &lt;TestObject: 0x2818ec610, {
+    name = Bob;
+}&gt;
+</code></pre></div></div>
+
+<p>这样在打印自定义类时，就能得到我们想要的信息。</p>
+
+<p>还有与<code class="highlighter-rouge">-(NSString *)description</code>方法功能相同的另一个方法<code class="highlighter-rouge">-(NSString *)debugDescription</code>,两者的区别就是后者是开发者在调试器中以控制台命令打印对象才调用的。在 NSObject 类默认实现中，debugDescription 直接调用了 description。我们可以重写 debugDescription 方法，以便在调试时打印出更详尽的信息。例如：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-(NSString *)description{
+    return [NSString stringWithFormat:@"&lt;%@&gt;",
+            @{@"name":_name}];
+}
+
+-(NSString *)debugDescription{
+    return [NSString stringWithFormat:@"&lt;%@: %p, %@&gt;",
+            [self class],
+            self,
+            @{@"name":_name}];
+</code></pre></div></div>
+
+<p>在 description 中，我们不需要看到类名与指针地址，而在调试时候想要看到更详尽的，就可以这么写。</p>
+
+<p>测试：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    TestObject *obj = [[TestObject alloc]initWithName:@"Bob"];
+    NSLog(@"obj = %@",obj);
+    //此处打一个断点
+}
+</code></pre></div></div>
+
+<p>打印：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>obj = &lt;{
+    name = Bob;
+}&gt;
+(lldb) po obj //此处使用 LLDB 的 “po” 命令可以完成对象打印
+&lt;TestObject: 0x2816ec010, {
+    name = Bob;
+}&gt;
+</code></pre></div></div>
+
+<h3 id="要点-1">要点</h3>
+
+<ul>
+  <li>实现 description 方法返回一个有意义的字符串，用以描述该实例。</li>
+  <li>若想在调试时打印出更详尽的对象描述信息，则应实现 debugDescription 方法。</li>
+</ul>
+
+<h2 id="第-18-条-尽量使用不可变对象">第 18 条 尽量使用不可变对象</h2>
+
+<p>就是声明属性为 readonly。这样可以防止外人改动。</p>
+
+<p>有时我们需要修改封装在对象内部的数据，可以在类扩展中将对象重新声明为 readwrite。例如：</p>
+
+<p>EOCPointOfInterest.h:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#import &lt;Foundation/Foundation.h&gt;
+ 
+@interface EOCPointOfInterest : NSObject
+ 
+@property (nonatomic, copy, readonly) NSString *identifier;
+ 
+@end
+
+</code></pre></div></div>
+
+<p>EOCPointOfInterest.m</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#import "EOCPointOfInterest.h"
+ 
+@interface EOCPointOfInterest()
+ 
+@property (nonatomic, copy, readwrite) NSString *identifier;
+ 
+@end
+ 
+@implementation EOCPointOfInterest
+ 
+@end
+</code></pre></div></div>
+
+<p>对象表示的各种集合属性，应该提供一个readonly属性供外界使用，该属性将返回不可变的集合，而该集合是内部那个可变集合的一份拷贝。即不要把可变的集合作为属性公开，而应该提供相关方法，以此修改对象中的可变集合。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 头文件：
+#import &lt;Foundation/Foundation.h&gt;
+ 
+@interface EOCPerson : NSObject
+ 
+@property (nonatomic, copy, readonly) NSString *firstName;
+@property (nonatomic, copy, readonly) NSString *lastName;
+@property (nonatomic, copy, readonly) NSSet *friends;
+ 
+- (id)initWithFirstName:(NSString *)firstName andLastName:(NSString *)lastName;
+- (void)addFriend:(EOCPerson *)person;
+- (void)removeFriend:(EOCPerson *)person;
+ 
+@end
+ 
+// 实现文件：
+#import "EOCPerson.h"
+ 
+@interface EOCPerson()
+ 
+@property (nonatomic, copy, readwrite) NSString *firstName;
+@property (nonatomic, copy, readwrite) NSString *lastName;
+ 
+@end
+ 
+@implementation EOCPerson {
+    NSMutableSet *_internalFriends;
+}
+ 
+- (NSSet *)friends
+{
+    return [_internalFriends copy];
+}
+ 
+ - (void)addFriend:(EOCPerson *)person
+{
+    [_internalFriends addObject:person];
+}
+ 
+- (void)removeFriend:(EOCPerson *)person
+{
+    [_internalFriends removeObject:person];
+}
+ 
+- (id)initWithFirstName:(NSString *)firstName andLastName:(NSString *)lastName
+{
+    if (self = [super init]) {
+        _firstName = firstName;
+        _lastName = lastName;
+        _internalFriends = [NSMutableSet new];
+    }
+    return self;
+}
+ 
+@end
+</code></pre></div></div>
+
+<h3 id="要点-2">要点</h3>
+
+<ul>
+  <li>尽量创建不可变的对象</li>
+  <li>若某属性仅可于对象内部修改，则在 “class-continuation 分类”中将其由 readonly 属性扩展为 readwrite 属性。</li>
+  <li>不要把可变的 collection 作为属性公开，而应提供相关方法，以此修改对象中可变的 collection。</li>
+</ul>
+
+<h2 id="第-19-条使用清晰而协调的命名方式">第 19 条：使用清晰而协调的命名方式</h2>
+
+<p>有种代码即文档的感觉，读起来就像日常用语的句子。不要用缩略后的名称来命名，例如用 str 替代 string。</p>
+
+<p>给方法命名时可以总结成下面几条规则：</p>
+
+<ul>
+  <li>如果方法的返回值时新创建的，那么方法名的首个词应是返回值的类型。例如<code class="highlighter-rouge">+stringWithString</code>。除非前面还有个修饰词例如<code class="highlighter-rouge">localizedString</code>,用来描述其逻辑含义。</li>
+  <li>应该吧表示参数类型的名词放在参数前面。例如<code class="highlighter-rouge">-(instancetype)initWithName:(NSString *)name</code>。</li>
+  <li>如果方法要在当前对象上执行操作，那么就应该包含动词；</li>
+  <li>不要使用 str 这种简称，应该使用 string 这样的全称。</li>
+  <li>Bool 属性应加 is/has 前缀。</li>
+  <li>将get 这个前缀留给那些借由“输出参数”来保存返回值的方法。比如，把返回值填充到“C语言式数组”（C-style array）里的那种方法就可以使用这个词做前缀。例：NSString类里的<code class="highlighter-rouge">-(void)getCharacters:(unichar*)buffer range:(NSRange)aRange</code>。</li>
+</ul>
+
+<h2 id="第-20-条为私有方法名加前缀">第 20 条：为私有方法名加前缀</h2>
+
+<ul>
+  <li>给私有方法的名称加上前缀，这样可以很容易地将其同公共方法分开。</li>
+  <li>不要单用一个下划线做私有方法的前缀，因为这种做法是预留给苹果公司用的。</li>
+</ul>
+
+<h2 id="第-21-条-理解-objective-c-错误模型">第 21 条 理解 Objective-C 错误模型</h2>
+
+<h3 id="1极其严重的错误使用异常">1、极其严重的错误使用异常</h3>
+
+<p>例如某人使用了我们自己编写的某个抽象基类，可以考虑抛出异常。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (void)mustOverrideMethod {
+    @throw [NSException 
+        exceptionWithName:NSInternalInconsistencyException
+        reason:[NSString stringWithFormat:@"%@ must be overridden", _cmd]
+        userInfo:nil];
+
+</code></pre></div></div>
+
+<h3 id="2一般错误可以令方法返回-nil-或使用-nserror">2、一般错误可以令方法返回 nil 或使用 NSError</h3>
+
+<h4 id="使用-nil">使用 nil</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (id)initWithValue:(id)value {
+    if ((self = [super init])) {
+        if ( /* Value means instance can’t be created */ ) {
+            self = nil;
+        } else {
+            // Initialise instance
+        }
+    }
+    return self;
+}
+</code></pre></div></div>
+
+<p>在这种情况下，如果 if 语句发现无法用传入的参数值来初始化当前实例（比如这个方法要求传入的 value 参数必须是 non-nil 的），那么就把 self 设置成 nil，这样的话，整个方法的返回值也就是 nil 了。调用者发现初始化方法并没有把实例创建好，于是便可确定其中发生了错误。</p>
+
+<h4 id="使用-nserror">使用 NSError</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (BOOL)doSomethingError:(NSError**)error {
+    // Do something that may cause an error
+    
+    if (/* there was an error */) {
+        if (error) {
+            *error = [NSError errorWithDomain:NSURLErrorDomain
+                                         code:110
+                                     userInfo:nil];
+        }
+        return NO;///&lt; Indicate failure
+    } else {
+        return YES; ///&lt; Indicate success
+    }
+}
+</code></pre></div></div>
+
+<p>调用这段代码：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NSError *error = nil;
+BOOL ret = [object doSomethingError:&amp;error];
+if (!ret) {
+    // There was an error
+    NSLog(@"err = %@",error);
+}
+</code></pre></div></div>
+<p>可以获取到错误信息。</p>
+
+<h3 id="要点-3">要点：</h3>
+
+<ul>
+  <li>只有发生了可使整个应用程序崩溃的严重错误时，才使用异常。</li>
+  <li>在错误不那么严重的情况下，可以指派“委托方法”来处理错误，也可以把错误信息放在 NSError 对象里，经由“输出参数”返回给调用者。</li>
+</ul>
+
+<h2 id="第-22-条-理解-nscopying-协议">第 22 条 理解 NSCopying 协议</h2>
+
+<p>NSCopying 协议下只有这一个方法：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (id)copyWithZone:(nullable NSZone *)zone;
+</code></pre></div></div>
+
+<p>其中参数 zone 已经不再使用，我们无需关心。</p>
+
+<p>当我们自定义对象想要具有拷贝功能时，我们就需要实现此协议。</p>
+
+<p>例如：</p>
+
+<p>TestObject.h</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#import &lt;Foundation/Foundation.h&gt;
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface TestObject : NSObject&lt;NSCopying&gt;
+
+@property(nonatomic,copy)NSString *name;
+
+-(instancetype)initWithName:(NSString *)name;
+
+@end
+
+NS_ASSUME_NONNULL_END
+</code></pre></div></div>
+
+<p>TestObject.m</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#import "TestObject.h"
+
+@implementation TestObject
+
+-(instancetype)initWithName:(NSString *)name{
+    if (self = [super init]) {
+        _name = name;
+    }
+    return self;
+}
+
+-(id)copyWithZone:(NSZone *)zone{
+    
+    TestObject *obj = [[[self class]allocWithZone:zone]initWithName:_name];
+    return obj;
+}
+
+@end
+</code></pre></div></div>
+
+<p>当然了，这样实现的是浅拷贝。我们若想实现深拷贝，需要实现 NSMutableCopying 协议，其协议下也只有一个方法：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (id)mutableCopyWithZone:(nullable NSZone *)zone;
+</code></pre></div></div>
+
+<p>其中参数 zone 没有用，不用考虑。返回一个可变对象就可以了。</p>
+
+<h3 id="要点-4">要点：</h3>
+
+<ul>
+  <li>若想令自己所写的对象具有拷贝功能，则需实现 NSCopying 协议。</li>
+  <li>如果自定义的对象分为可变版本和不可变版本，那么就要同时实现 NSCopying 与 NSMutableCopying 协议。</li>
+  <li>复制对象时需决定采用浅拷贝还是深拷贝，一般情况下应该尽量执行浅拷贝。</li>
+  <li>如果你写的对象需要深拷贝，那么可考虑新增一个专门执行深拷贝的方法。</li>
+</ul>
+
+
+  </section>
+
+</article>
+
+<section>
+
+  <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+  <ul class="pager">
+    
+    <li class="previous">
+      <a href="/2019/05/10/iOS-%E4%B8%8E-&-%E4%BB%A5%E5%8F%8A%E4%BA%8C%E7%BA%A7%E6%8C%87%E9%92%88.html" data-toggle="tooltip" data-placement="top" title="iOS * 与 & 以及二级指针">上一篇：  <span>iOS * 与 & 以及二级指针</span>
+      </a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/05/14/Effective-Objective-C-2.0-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E5%8D%8F%E8%AE%AE%E4%B8%8E%E5%88%86%E7%B1%BB.html" data-toggle="tooltip" data-placement="top" title="Effective Objective-C 2.0 第四章 协议与分类">下一篇：  <span>Effective Objective-C 2.0 第四章 协议与分类</span>
+      </a>
+    </li>
+    
+  </ul>
+</section>
+
+
+            <section class="footer">
+  <footer>
+    <div class = "footer_div">  
+      <nav class="cover-navigation navigation--social">
+        <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/Vergil-wj" title="@Vergil-wj 的 Github" target="_blank">
+              <div class="footer-social-icon" style="background:url(/images/github.png);"></div>
+            </a>
+          </li>
+          
+
+          
+          <li class="navigation__item_social">
+            <a href="https://www.jianshu.com/u/3e3ba42c4c63" title="@3e3ba42c4c63" target="_blank">
+              <div class="footer-social-icon" style="background:url(/images/jianshu.jpg);"></div>
+            </a>
+          </li>
+
+          
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:834372189@qq.com" title="Contact me">
+              <div class="footer-social-icon" style="background:url(/images/email.png);"></div>
+            </a>
+          </li>
+          
+          
+        </ul>
+      </nav>
+
+    </div>
+
+    <div class = "footer_div">  
+
+      <div align="center">
+        <p class="copyright text-muted">
+          Copyright &copy; Vergil 2019
+        </p>
+        <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+      </div>
+
+    </div>
+  </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>
