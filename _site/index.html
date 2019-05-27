@@ -22,7 +22,9 @@
   <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
   
   <link rel="stylesheet" href="/css/main.css">
-  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <!-- <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"> -->
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
 
   <link rel="canonical" href="http://localhost:4000/">
   <link rel="alternate" type="application/rss+xml" title="Vergil" href="http://localhost:4000/feed.xml">
@@ -64,61 +66,72 @@
     
     <header class="panel-cover " style="background-image: url('/images/background-cover.jpg')">
   <div class="panel-main">
-
     <div class="panel-main__inner panel-inverted">
-        <div class="panel-main__content">
-            <!-- 头像效果-start -->
-            <div class="ih-item circle effect right_to_left">            
-                <a href="/#blog" title="前往 Vergil 的主页" class="blog-button">
-                    <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
-                    <div class="info">
-                        <div class="info-back">
-                            <h2> 
-                                
-                                Vergil
-                                
-                            </h2>
-                            <p>
-                             
-                             iOS
-                             
-                         </p>
-                     </div>
-                 </div>
-             </a>
-         </div>
-         <!-- 头像效果-end -->
-         <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for Vergil" class="blog-button">Vergil</a></h1>
+      <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">            
+          <a href="/#blog" title="前往 Vergil 的主页" class="blog-button">
+            <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+         </a>
+       </div>
+       <!-- 头像效果-end -->
+       <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for Vergil" class="blog-button">Vergil</a></h1>
 
-         
-         <span class="panel-cover__subtitle panel-subtitle">iOS 开发者</span>
-         
+       
+       <span class="panel-cover__subtitle panel-subtitle">iOS 开发者</span>
+       
 
-         <hr class="panel-cover__divider" />
-         <p class="panel-cover__description">我用双手成就你的梦想！</p>
-         <hr class="panel-cover__divider panel-cover__divider--secondary" />
+       <hr class="panel-cover__divider" />
+       <p class="panel-cover__description">我用双手成就你的梦想！</p>
+       <hr class="panel-cover__divider panel-cover__divider--secondary" />
 
-         
+       
 
 
-         <div class="navigation-wrapper">
-          <div>
-            <nav class="cover-navigation cover-navigation--primary">
-              <ul class="navigation">
-                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
-                
-                <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
-                
-                <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
-                
+       <div class="navigation-wrapper">
+        <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+              
+              <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+              
+              <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+              
             </ul>
+          </nav>
+        </div>          
+      </div>
+      <div class = "footer_div">  
+        <nav class="cover-navigation navigation--social">
+          <ul class="navigation">
+
+            
+            <li class="navigation__item_social">
+              <a target="_blank" href="https://github.com/Vergil-wj">
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            
+
+            
+            <li class="navigation__item_social">
+              <a target="_blank" href="https://www.jianshu.com/u/3e3ba42c4c63">
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa   fa-stack-1x fa-inverse">简</i>
+                </span>
+              </a>
+            </li>
+            
+          </ul>
         </nav>
-    </div>          
-</div>
-
-
-</div>
-</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 
@@ -137,7 +150,27 @@
     <li>
       <h2 class="post-list__post-title post-title"><a href="/2019/05/24/iOS-NSCache-%E7%BC%93%E5%AD%98.html" title="访问 iOS NSCache 缓存">iOS NSCache 缓存</a></h2>
 
-      <p class="excerpt">NSCache 是一个可变集合，即缓存。它存储key-value对，这一点类似于NSDictionary类。      NSCache 在系统内存很低时，会自动释放一些对象        NSCache 是线程安全的，在多线程操作中，不需要对 Cache 加锁        NSCache 的 Key 只是做强引用，不需要实现 NSCopying 协议  属性//缓存名- @property (copy) NSString *name;//缓存所能容纳最大总成本。//默认为 0，没有限制。...&hellip;</p>
+      <!-- <p class="excerpt">NSCache 是一个可变集合，即缓存。它存储key-value对，这一点类似于NSDictionary类。      NSCache 在系统内存很低时，会自动释放一些对象        NSCache 是线程安全的，在多线程操作中，不需要对 Cache 加锁        NSCache 的 Key 只是做强引用，不需要实现 NSCopying 协议  属性//缓存名- @property (copy) NSString *name;//缓存所能容纳最大总成本。//默认为 0，没有限制。...&hellip;</p> -->
+      <p class="excerpt">NSCache 是一个可变集合，即缓存。它存储key-value对，这一点类似于NSDictionary类。
+
+
+  
+    NSCache 在系统内存很低时，会自动释放一些对象
+  
+  
+    NSCache 是线程安全的，在多线程操作中，不需要对 Cache 加锁
+  
+  
+    NSCache 的 Key 只是做强引用，不需要实现 NSCopying 协议
+  
+
+
+属性
+
+//缓存名
+- @property (copy) NSString *name;
+
+//缓存所能容纳...&hellip;</p>
 
       <div style="margin: .2em auto;width: 100%;height: 1px"></div>
 
@@ -175,7 +208,20 @@
     <li>
       <h2 class="post-list__post-title post-title"><a href="/2019/05/23/Effective-Objective-C-2.0-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%B3%BB%E7%BB%9F%E6%A1%86%E6%9E%B6.html" title="访问 Effective Objective-C 2.0 第七章 系统框架">Effective Objective-C 2.0 第七章 系统框架</a></h2>
 
-      <p class="excerpt">第 47 条 熟悉系统框架我之前这篇文章iOS 框架有介绍过，下面简单介绍下书中内容。  将一系列代码封装为动态库，并在其中放入描述其接口的头文件，这样做出来的东西就叫框架。在 iOS 上的框架为 Cocaa Touch 框架，其实其本身并不是框架，但是里面集成了一批创建应用程序时经常会用到的框架。我们开发者碰到的主要框架就是 Foundation和UIKit两大框架。其中 Foundation 框架是 Objective-C 应用程序的“基础”。第 48 条 多用块枚举，少用 for 循...&hellip;</p>
+      <!-- <p class="excerpt">第 47 条 熟悉系统框架我之前这篇文章iOS 框架有介绍过，下面简单介绍下书中内容。  将一系列代码封装为动态库，并在其中放入描述其接口的头文件，这样做出来的东西就叫框架。在 iOS 上的框架为 Cocaa Touch 框架，其实其本身并不是框架，但是里面集成了一批创建应用程序时经常会用到的框架。我们开发者碰到的主要框架就是 Foundation和UIKit两大框架。其中 Foundation 框架是 Objective-C 应用程序的“基础”。第 48 条 多用块枚举，少用 for 循...&hellip;</p> -->
+      <p class="excerpt">第 47 条 熟悉系统框架
+
+我之前这篇文章iOS 框架有介绍过，下面简单介绍下书中内容。
+
+
+  将一系列代码封装为动态库，并在其中放入描述其接口的头文件，这样做出来的东西就叫框架。
+
+
+在 iOS 上的框架为 Cocaa Touch 框架，其实其本身并不是框架，但是里面集成了一批创建应用程序时经常会用到的框架。
+
+我们开发者碰到的主要框架就是 Foundation和UIKit两大框架。其中 Foundation 框架是 Objective-C 应用程序的“基础”。
+
+第 48 条 多用...&hellip;</p>
 
       <div style="margin: .2em auto;width: 100%;height: 1px"></div>
 
@@ -213,7 +259,22 @@
     <li>
       <h2 class="post-list__post-title post-title"><a href="/2019/05/22/Effective-Objective-C-2.0-%E7%AC%AC%E5%85%AD%E7%AB%A0-%E5%9D%97%E4%B8%8E%E5%A4%A7%E4%B8%AD%E6%9E%A2%E6%B4%BE%E5%8F%91(%E4%BA%8C).html" title="访问 Effective Objective-C 2.0 第六章 块与大中枢派发(二)">Effective Objective-C 2.0 第六章 块与大中枢派发(二)</a></h2>
 
-      <p class="excerpt">第 41 条 多用派发队列，少用同步锁多个线程执行同一份代码的情况下，我们需要加锁，有以下三种方法：1、使用同步块- (void)synchronizedMethod{    @synchronized (self) {    //Safe   }}滥用@synchronized (self)则会降低代码效率，因为共用同一个锁的那些同步块，都必须按顺序执行。若是在self对象上频繁加锁，那么程序可能要等另一段与此无关的代码执行完毕，才能继续执行当前代码，这样做其实并没有必要。在极端情况下，...&hellip;</p>
+      <!-- <p class="excerpt">第 41 条 多用派发队列，少用同步锁多个线程执行同一份代码的情况下，我们需要加锁，有以下三种方法：1、使用同步块- (void)synchronizedMethod{    @synchronized (self) {    //Safe   }}滥用@synchronized (self)则会降低代码效率，因为共用同一个锁的那些同步块，都必须按顺序执行。若是在self对象上频繁加锁，那么程序可能要等另一段与此无关的代码执行完毕，才能继续执行当前代码，这样做其实并没有必要。在极端情况下，...&hellip;</p> -->
+      <p class="excerpt">第 41 条 多用派发队列，少用同步锁
+
+多个线程执行同一份代码的情况下，我们需要加锁，有以下三种方法：
+
+1、使用同步块
+
+- (void)synchronizedMethod
+{
+    @synchronized (self) {
+    //Safe
+   }
+}
+
+
+滥用@synchronized (self)则会降低代码效率，因为共用同一个锁的那些同步块，都必须按顺序执行。若是在self对象上频繁加锁，那么程序可能要等另一段与此无关的代码执行完毕，才能继续执行当前代码，这样做其...&hellip;</p>
 
       <div style="margin: .2em auto;width: 100%;height: 1px"></div>
 
@@ -251,7 +312,24 @@
     <li>
       <h2 class="post-list__post-title post-title"><a href="/2019/05/18/NSlog-%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F.html" title="访问 NSlog 输出格式">NSlog 输出格式</a></h2>
 
-      <p class="excerpt"> %@           OC对象 %d,%i        整型 (%i的老写法)  %hd          短整型  %ld,%lld     长整型  %u           无符整型  %f           浮点型和double型  %0.2f        精度浮点数，只保留两位小数  %x:       为32位的无符号整型数(unsigned int),打印使用数字0-9的十六进制,小写a-f;  %X:       为32位的无符号整型数(unsigned int...&hellip;</p>
+      <!-- <p class="excerpt"> %@           OC对象 %d,%i        整型 (%i的老写法)  %hd          短整型  %ld,%lld     长整型  %u           无符整型  %f           浮点型和double型  %0.2f        精度浮点数，只保留两位小数  %x:       为32位的无符号整型数(unsigned int),打印使用数字0-9的十六进制,小写a-f;  %X:       为32位的无符号整型数(unsigned int...&hellip;</p> -->
+      <p class="excerpt"> %@           OC对象
+
+ %d,%i        整型 (%i的老写法)
+ 
+ %hd          短整型
+ 
+ %ld,%lld     长整型
+ 
+ %u           无符整型
+ 
+ %f           浮点型和double型
+ 
+ %0.2f        精度浮点数，只保留两位小数
+ 
+ %x:       为32位的无符号整型数(unsigned int),打印使用数字0-9的十六进制,小写a-f;
+ 
+ %X:       为32位的无符号...&hellip;</p>
 
       <div style="margin: .2em auto;width: 100%;height: 1px"></div>
 
@@ -289,7 +367,16 @@
     <li>
       <h2 class="post-list__post-title post-title"><a href="/2019/05/16/Effective-Objective-C-2.0-%E7%AC%AC%E5%85%AD%E7%AB%A0-%E5%9D%97%E4%B8%8E%E5%A4%A7%E4%B8%AD%E6%9E%A2%E6%B4%BE%E5%8F%91(%E4%B8%80).html" title="访问 Effective Objective-C 2.0 第六章 块与大中枢派发(一)">Effective Objective-C 2.0 第六章 块与大中枢派发(一)</a></h2>
 
-      <p class="excerpt">第 37 条 理解“块”这一概念Block：带有自动变量的匿名函数。匿名函数：没有函数名的函数，一对 {} 包裹的内容是匿名函数的作用域。自动变量：栈上声明的一个变量不是静态变量和全局变量，是不可以在这个栈内声明的匿名函数中使用的，但在 Block 中却可以。虽然使用 Block 不用声明类，但是 Block 提供了 Objective-C 的类一样可以通过成员变量来保存作用域外变量值的方法，那些在 Block 的一对 {} 里使用到但却是在 {} 作用域以外声明的变量，就是 Block ...&hellip;</p>
+      <!-- <p class="excerpt">第 37 条 理解“块”这一概念Block：带有自动变量的匿名函数。匿名函数：没有函数名的函数，一对 {} 包裹的内容是匿名函数的作用域。自动变量：栈上声明的一个变量不是静态变量和全局变量，是不可以在这个栈内声明的匿名函数中使用的，但在 Block 中却可以。虽然使用 Block 不用声明类，但是 Block 提供了 Objective-C 的类一样可以通过成员变量来保存作用域外变量值的方法，那些在 Block 的一对 {} 里使用到但却是在 {} 作用域以外声明的变量，就是 Block ...&hellip;</p> -->
+      <p class="excerpt">第 37 条 理解“块”这一概念
+
+Block：带有自动变量的匿名函数。
+
+匿名函数：没有函数名的函数，一对 {} 包裹的内容是匿名函数的作用域。
+
+自动变量：栈上声明的一个变量不是静态变量和全局变量，是不可以在这个栈内声明的匿名函数中使用的，但在 Block 中却可以。
+
+虽然使用 Block 不用声明类，但是 Block 提供了 Objective-C 的类一样可以通过成员变量来保存作用域外变量值的方法，那些在 Block 的一对 {} 里使用到但却是在 {} 作用域以外声明的变量，就...&hellip;</p>
 
       <div style="margin: .2em auto;width: 100%;height: 1px"></div>
 
@@ -327,7 +414,21 @@
     <li>
       <h2 class="post-list__post-title post-title"><a href="/2019/05/15/Effective-Objective-C-2.0-%E7%AC%AC%E4%BA%94%E7%AB%A0-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86.html" title="访问 Effective Objective-C 2.0 第五章 内存管理">Effective Objective-C 2.0 第五章 内存管理</a></h2>
 
-      <p class="excerpt">第 29 条 理解引用计数引用计数原理引用计数机制通过可以递增递减的计数器来管理内存。对象创建好之后，其保留计数至少为1.若保留计数为正，则对象继续存活。当保留计数降为0时，对象就被销毁了。在对象生命期中，其余对象通过引用来保留或释放此对象。保留与释放操作分别会递增及递减保留计数。属性存取方法中的内存管理若属性 foo 由 strong 修饰，则其 set 方法会保留新值，释放旧值：- (void)setFoo:(id)foo {    [foo retain];    [_foo rel...&hellip;</p>
+      <!-- <p class="excerpt">第 29 条 理解引用计数引用计数原理引用计数机制通过可以递增递减的计数器来管理内存。对象创建好之后，其保留计数至少为1.若保留计数为正，则对象继续存活。当保留计数降为0时，对象就被销毁了。在对象生命期中，其余对象通过引用来保留或释放此对象。保留与释放操作分别会递增及递减保留计数。属性存取方法中的内存管理若属性 foo 由 strong 修饰，则其 set 方法会保留新值，释放旧值：- (void)setFoo:(id)foo {    [foo retain];    [_foo rel...&hellip;</p> -->
+      <p class="excerpt">第 29 条 理解引用计数
+
+引用计数原理
+
+引用计数机制通过可以递增递减的计数器来管理内存。对象创建好之后，其保留计数至少为1.若保留计数为正，则对象继续存活。当保留计数降为0时，对象就被销毁了。
+
+在对象生命期中，其余对象通过引用来保留或释放此对象。保留与释放操作分别会递增及递减保留计数。
+
+属性存取方法中的内存管理
+
+若属性 foo 由 strong 修饰，则其 set 方法会保留新值，释放旧值：
+
+- (void)setFoo:(id)foo {
+    [foo retain];...&hellip;</p>
 
       <div style="margin: .2em auto;width: 100%;height: 1px"></div>
 
@@ -365,7 +466,16 @@
     <li>
       <h2 class="post-list__post-title post-title"><a href="/2019/05/14/Effective-Objective-C-2.0-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E5%8D%8F%E8%AE%AE%E4%B8%8E%E5%88%86%E7%B1%BB.html" title="访问 Effective Objective-C 2.0 第四章 协议与分类">Effective Objective-C 2.0 第四章 协议与分类</a></h2>
 
-      <p class="excerpt">第 23 条 通过委托与数据源协议进行对象间通信1、Objective-C 可以使用 “委托模式”（Delegate pattern）的编程设计模式来实现对象间的通信：定义一套接口，某对象若想接受另一个对象的委托，则需遵从此接口，以便成为其 “委托对象”（delegate）。Objective-C 一般利用 “协议” 机制来实现此模式。2、定义协议：@protocol EOCNetworkingFetcherDelegate@optional- (void)newworkingFetche...&hellip;</p>
+      <!-- <p class="excerpt">第 23 条 通过委托与数据源协议进行对象间通信1、Objective-C 可以使用 “委托模式”（Delegate pattern）的编程设计模式来实现对象间的通信：定义一套接口，某对象若想接受另一个对象的委托，则需遵从此接口，以便成为其 “委托对象”（delegate）。Objective-C 一般利用 “协议” 机制来实现此模式。2、定义协议：@protocol EOCNetworkingFetcherDelegate@optional- (void)newworkingFetche...&hellip;</p> -->
+      <p class="excerpt">第 23 条 通过委托与数据源协议进行对象间通信
+
+1、Objective-C 可以使用 “委托模式”（Delegate pattern）的编程设计模式来实现对象间的通信：定义一套接口，某对象若想接受另一个对象的委托，则需遵从此接口，以便成为其 “委托对象”（delegate）。Objective-C 一般利用 “协议” 机制来实现此模式。
+
+2、定义协议：
+
+@protocol EOCNetworkingFetcherDelegate
+@optional
+- (void)newworki...&hellip;</p>
 
       <div style="margin: .2em auto;width: 100%;height: 1px"></div>
 
@@ -403,7 +513,12 @@
     <li>
       <h2 class="post-list__post-title post-title"><a href="/2019/05/13/Effective-Objective-C-2.0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%8E%A5%E5%8F%A3%E4%B8%8E-API-%E8%AE%BE%E8%AE%A1.html" title="访问 Effective Objective-C 2.0 第三章 接口与 API 设计">Effective Objective-C 2.0 第三章 接口与 API 设计</a></h2>
 
-      <p class="excerpt">第 15 条：用前缀避免命名空间冲突1、选择与你的公司、应用程序或二者皆有关联之名称作为类名的前缀，并在所有代码中使用这一前缀。Apple 宣称其保留使用所有“两字母前缀”的权利，所以我们使用前缀时候最好是三个字母的。举个例子，假如开发者不遵守这条守则，使用 TW 这两个字母作为前缀，那么就会出现问题。iOS 5.0 SDK 发布时，包含 Twitter 框架，此框架就使用 TW 作前缀，其中有个类叫做 TWRequest，它可以发送 HTTP 请求以调用 Twitter API。如果你所...&hellip;</p>
+      <!-- <p class="excerpt">第 15 条：用前缀避免命名空间冲突1、选择与你的公司、应用程序或二者皆有关联之名称作为类名的前缀，并在所有代码中使用这一前缀。Apple 宣称其保留使用所有“两字母前缀”的权利，所以我们使用前缀时候最好是三个字母的。举个例子，假如开发者不遵守这条守则，使用 TW 这两个字母作为前缀，那么就会出现问题。iOS 5.0 SDK 发布时，包含 Twitter 框架，此框架就使用 TW 作前缀，其中有个类叫做 TWRequest，它可以发送 HTTP 请求以调用 Twitter API。如果你所...&hellip;</p> -->
+      <p class="excerpt">第 15 条：用前缀避免命名空间冲突
+
+1、选择与你的公司、应用程序或二者皆有关联之名称作为类名的前缀，并在所有代码中使用这一前缀。
+
+Apple 宣称其保留使用所有“两字母前缀”的权利，所以我们使用前缀时候最好是三个字母的。举个例子，假如开发者不遵守这条守则，使用 TW 这两个字母作为前缀，那么就会出现问题。iOS 5.0 SDK 发布时，包含 Twitter 框架，此框架就使用 TW 作前缀，其中有个类叫做 TWRequest，它可以发送 HTTP 请求以调用 Twitter API。...&hellip;</p>
 
       <div style="margin: .2em auto;width: 100%;height: 1px"></div>
 
@@ -441,7 +556,38 @@
     <li>
       <h2 class="post-list__post-title post-title"><a href="/2019/05/10/iOS-%E4%B8%8E-&-%E4%BB%A5%E5%8F%8A%E4%BA%8C%E7%BA%A7%E6%8C%87%E9%92%88.html" title="访问 iOS * 与 & 以及二级指针">iOS * 与 & 以及二级指针</a></h2>
 
-      <p class="excerpt">*： 星号，用来声明指针的；&amp;：连字号运算符，定义内存位置；二级指针：指向指针的指针。指针指针是一个变量，它的值是另一个变量的地址。我们先声明一个变量：int var = 20;再声明一个指针：int *p = &amp;var; 其中 p 是指针变量名称，它的值指向的是 var 的地址。我们打印输出一下：int var = 20;int *p = &amp;var;NSLog(@"%d,%d",var,*p);NSLog(@"%p,%p",&amp;var,p);结果：20,20...&hellip;</p>
+      <!-- <p class="excerpt">*： 星号，用来声明指针的；&amp;：连字号运算符，定义内存位置；二级指针：指向指针的指针。指针指针是一个变量，它的值是另一个变量的地址。我们先声明一个变量：int var = 20;再声明一个指针：int *p = &amp;var; 其中 p 是指针变量名称，它的值指向的是 var 的地址。我们打印输出一下：int var = 20;int *p = &amp;var;NSLog(@"%d,%d",var,*p);NSLog(@"%p,%p",&amp;var,p);结果：20,20...&hellip;</p> -->
+      <p class="excerpt">*： 星号，用来声明指针的；
+
+&amp;：连字号运算符，定义内存位置；
+
+二级指针：指向指针的指针。
+
+指针
+
+指针是一个变量，它的值是另一个变量的地址。
+
+我们先声明一个变量：
+
+int var = 20;
+
+
+再声明一个指针：
+
+int *p = &amp;var; 
+
+
+其中 p 是指针变量名称，它的值指向的是 var 的地址。
+
+我们打印输出一下：
+
+int var = 20;
+
+int *p = &amp;var;
+
+NSLog(@"%d,%d",var,*p);
+
+NSLog...&hellip;</p>
 
       <div style="margin: .2em auto;width: 100%;height: 1px"></div>
 
@@ -479,7 +625,10 @@
     <li>
       <h2 class="post-list__post-title post-title"><a href="/2019/05/07/Effective-Objective-C-2.0-%E7%AC%AC%E4%BA%8C%E7%AB%A0-14-%E7%90%86%E8%A7%A3-%E7%B1%BB%E5%AF%B9%E8%B1%A1-%E7%9A%84%E7%94%A8%E6%84%8F.html" title="访问 Effective Objective-C 2.0 第二章 14 理解“类对象”的用意">Effective Objective-C 2.0 第二章 14 理解“类对象”的用意</a></h2>
 
-      <p class="excerpt">我之前这篇文章iOS runtime 类与对象已经详细介绍过类与对象，本篇重点介绍书中内容。Objective-C实际上是一门极其动态的语言。第11条讲解了运行期系统如何查找并调用某方法的实现代码，第12条则讲述了消息转发的原理：如果类无法立即响应某个选择子，那么就会启动消息转发流程。然而，消息的接收者究竟是何物？是对象本身吗？运行期系统如何知道某个对象的类型呢？对象类型并非在编译期就绑定好了，而是要在运行期查找。而且，还有个特殊的类型叫做id，它能指代任意的Objective-C对象类型...&hellip;</p>
+      <!-- <p class="excerpt">我之前这篇文章iOS runtime 类与对象已经详细介绍过类与对象，本篇重点介绍书中内容。Objective-C实际上是一门极其动态的语言。第11条讲解了运行期系统如何查找并调用某方法的实现代码，第12条则讲述了消息转发的原理：如果类无法立即响应某个选择子，那么就会启动消息转发流程。然而，消息的接收者究竟是何物？是对象本身吗？运行期系统如何知道某个对象的类型呢？对象类型并非在编译期就绑定好了，而是要在运行期查找。而且，还有个特殊的类型叫做id，它能指代任意的Objective-C对象类型...&hellip;</p> -->
+      <p class="excerpt">我之前这篇文章iOS runtime 类与对象已经详细介绍过类与对象，本篇重点介绍书中内容。
+
+Objective-C实际上是一门极其动态的语言。第11条讲解了运行期系统如何查找并调用某方法的实现代码，第12条则讲述了消息转发的原理：如果类无法立即响应某个选择子，那么就会启动消息转发流程。然而，消息的接收者究竟是何物？是对象本身吗？运行期系统如何知道某个对象的类型呢？对象类型并非在编译期就绑定好了，而是要在运行期查找。而且，还有个特殊的类型叫做id，它能指代任意的Objective-C对象...&hellip;</p>
 
       <div style="margin: .2em auto;width: 100%;height: 1px"></div>
 
@@ -517,7 +666,11 @@
     <li>
       <h2 class="post-list__post-title post-title"><a href="/2019/05/06/Effective-Objective-C-2.0-%E7%AC%AC%E4%BA%8C%E7%AB%A0-13-%E7%94%A8-%E6%96%B9%E6%B3%95%E8%B0%83%E9%85%8D%E6%8A%80%E6%9C%AF-%E8%B0%83%E8%AF%95-%E9%BB%91%E7%9B%92%E6%96%B9%E6%B3%95.html" title="访问 Effective Objective-C 2.0 第二章 13、用“方法调配技术”调试“黑盒方法”">Effective Objective-C 2.0 第二章 13、用“方法调配技术”调试“黑盒方法”</a></h2>
 
-      <p class="excerpt">之前在我的这篇文章iOS runtime Method Swizzling已经详细分析过，本篇介绍书中内容。Objective-C 对象收到消息之后，究竟会调用何种方法需要在运行期才能解析出来。那你也许会问：与给定的选择子名称相对应的方法是不是也可以在运行期改变呢？没错，就是这样。若能善用此特性，则可发挥出巨大优势，因为我们既不需要源代码，也不需要通过继承子类来覆写方法就能改变这个类本身的功能。这样一来，新功能将在本类的所有实例中生效，而不是仅限于覆写了相关方法的那些子类实例。此方案经常称...&hellip;</p>
+      <!-- <p class="excerpt">之前在我的这篇文章iOS runtime Method Swizzling已经详细分析过，本篇介绍书中内容。Objective-C 对象收到消息之后，究竟会调用何种方法需要在运行期才能解析出来。那你也许会问：与给定的选择子名称相对应的方法是不是也可以在运行期改变呢？没错，就是这样。若能善用此特性，则可发挥出巨大优势，因为我们既不需要源代码，也不需要通过继承子类来覆写方法就能改变这个类本身的功能。这样一来，新功能将在本类的所有实例中生效，而不是仅限于覆写了相关方法的那些子类实例。此方案经常称...&hellip;</p> -->
+      <p class="excerpt">之前在我的这篇文章
+iOS runtime Method Swizzling已经详细分析过，本篇介绍书中内容。
+
+Objective-C 对象收到消息之后，究竟会调用何种方法需要在运行期才能解析出来。那你也许会问：与给定的选择子名称相对应的方法是不是也可以在运行期改变呢？没错，就是这样。若能善用此特性，则可发挥出巨大优势，因为我们既不需要源代码，也不需要通过继承子类来覆写方法就能改变这个类本身的功能。这样一来，新功能将在本类的所有实例中生效，而不是仅限于覆写了相关方法的那些子类实例。此方案...&hellip;</p>
 
       <div style="margin: .2em auto;width: 100%;height: 1px"></div>
 
@@ -555,7 +708,17 @@
     <li>
       <h2 class="post-list__post-title post-title"><a href="/2019/05/05/Effective-Objective-C-2.0-%E7%AC%AC%E4%BA%8C%E7%AB%A0-12-%E7%90%86%E8%A7%A3%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%E6%9C%BA%E5%88%B6.html" title="访问 Effective Objective-C 2.0 第二章 12、理解消息转发机制">Effective Objective-C 2.0 第二章 12、理解消息转发机制</a></h2>
 
-      <p class="excerpt">详细分析请看我之前这篇文章：iOS runtime 消息机制及消息转发。本篇对书中内容做简要介绍。若想令类能理解某条消息，我们必须以程序码实现出对应的方法才行。但是，在编译期向类发送了其无法解读的消息并不会报错，因为在运行期可以继续向类中添加方法，所以编译器在编译时还无法确知类中到底会不会有某个方法实现。当对象接收到无法解读的消息后，就会启动“消息转发”（message forwarding）机制，程序员可经由此过程告诉对象应该如何处理未知消息。下面是整个消息转发流程图：对象在收到无法解读...&hellip;</p>
+      <!-- <p class="excerpt">详细分析请看我之前这篇文章：iOS runtime 消息机制及消息转发。本篇对书中内容做简要介绍。若想令类能理解某条消息，我们必须以程序码实现出对应的方法才行。但是，在编译期向类发送了其无法解读的消息并不会报错，因为在运行期可以继续向类中添加方法，所以编译器在编译时还无法确知类中到底会不会有某个方法实现。当对象接收到无法解读的消息后，就会启动“消息转发”（message forwarding）机制，程序员可经由此过程告诉对象应该如何处理未知消息。下面是整个消息转发流程图：对象在收到无法解读...&hellip;</p> -->
+      <p class="excerpt">详细分析请看我之前这篇文章：
+iOS runtime 消息机制及消息转发。本篇对书中内容做简要介绍。
+
+若想令类能理解某条消息，我们必须以程序码实现出对应的方法才行。但是，在编译期向类发送了其无法解读的消息并不会报错，因为在运行期可以继续向类中添加方法，所以编译器在编译时还无法确知类中到底会不会有某个方法实现。当对象接收到无法解读的消息后，就会启动“消息转发”（message forwarding）机制，程序员可经由此过程告诉对象应该如何处理未知消息。
+
+下面是整个消息转发流程图：
+
+
+
+...&hellip;</p>
 
       <div style="margin: .2em auto;width: 100%;height: 1px"></div>
 
@@ -593,7 +756,18 @@
     <li>
       <h2 class="post-list__post-title post-title"><a href="/2019/05/04/Effective-Objective-C-2.0-%E7%AC%AC%E4%BA%8C%E7%AB%A0-11-%E7%90%86%E8%A7%A3-objc_msgSend-%E7%9A%84%E4%BD%9C%E7%94%A8.html" title="访问 Effective Objective-C 2.0 第二章 11、理解 objc_msgSend 的作用">Effective Objective-C 2.0 第二章 11、理解 objc_msgSend 的作用</a></h2>
 
-      <p class="excerpt">我之前一篇文章iOS runtime 消息机制及消息转发对此有详细介绍。本篇简单介绍下书中内容。在对象上调用方法，又叫 “传递消息”。由于Objective-C是C的超集，所以最好先理解C语言的函数调用方式。C语言使用“静态绑定”（static binding），也就是说，在编译期就能决定运行时所应调用的函数。以下列代码为例：#import &lt;stdio.h&gt;  void printHello() {      printf("Hello, world!\n");  }  vo...&hellip;</p>
+      <!-- <p class="excerpt">我之前一篇文章iOS runtime 消息机制及消息转发对此有详细介绍。本篇简单介绍下书中内容。在对象上调用方法，又叫 “传递消息”。由于Objective-C是C的超集，所以最好先理解C语言的函数调用方式。C语言使用“静态绑定”（static binding），也就是说，在编译期就能决定运行时所应调用的函数。以下列代码为例：#import &lt;stdio.h&gt;  void printHello() {      printf("Hello, world!\n");  }  vo...&hellip;</p> -->
+      <p class="excerpt">我之前一篇文章
+iOS runtime 消息机制及消息转发对此有详细介绍。本篇简单介绍下书中内容。
+
+在对象上调用方法，又叫 “传递消息”。
+
+由于Objective-C是C的超集，所以最好先理解C语言的函数调用方式。C语言使用“静态绑定”（static binding），也就是说，在编译期就能决定运行时所应调用的函数。以下列代码为例：
+
+#import &lt;stdio.h&gt; 
+ 
+void printHello() {  
+    printf("Hello, world!\n...&hellip;</p>
 
       <div style="margin: .2em auto;width: 100%;height: 1px"></div>
 
@@ -631,7 +805,23 @@
     <li>
       <h2 class="post-list__post-title post-title"><a href="/2019/05/03/Effective-Objective-C-2.0-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8D%81-%E5%9C%A8%E6%97%A2%E6%9C%89%E7%B1%BB%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1%E5%AD%98%E6%94%BE%E8%87%AA%E5%AE%9A%E4%B9%89%E6%95%B0%E6%8D%AE.html" title="访问 Effective Objective-C 2.0 第二章 十、在既有类中使用关联对象存放自定义数据">Effective Objective-C 2.0 第二章 十、在既有类中使用关联对象存放自定义数据</a></h2>
 
-      <p class="excerpt">我之前已经在这篇文章iOS runtime 关联对象做了详细介绍。本篇只是简单介绍下。创建关联对象：void objc_setAssociatedObject(id object, const void *key, id value, objc_AssociationPolicy policy)  id object：对象  const void *key：键  id value：值  objc_AssociationPolicy policy：内存管理策略其中内存管理策略是一个枚举，如下...&hellip;</p>
+      <!-- <p class="excerpt">我之前已经在这篇文章iOS runtime 关联对象做了详细介绍。本篇只是简单介绍下。创建关联对象：void objc_setAssociatedObject(id object, const void *key, id value, objc_AssociationPolicy policy)  id object：对象  const void *key：键  id value：值  objc_AssociationPolicy policy：内存管理策略其中内存管理策略是一个枚举，如下...&hellip;</p> -->
+      <p class="excerpt">我之前已经在这篇文章
+iOS runtime 关联对象做了详细介绍。本篇只是简单介绍下。
+
+创建关联对象：
+
+void objc_setAssociatedObject(id object, const void *key, id value, objc_AssociationPolicy policy)
+
+
+
+  id object：对象
+  const void *key：键
+  id value：值
+  objc_AssociationPolicy policy：内存管理策略
+
+
+其...&hellip;</p>
 
       <div style="margin: .2em auto;width: 100%;height: 1px"></div>
 
@@ -669,7 +859,17 @@
     <li>
       <h2 class="post-list__post-title post-title"><a href="/2019/05/02/Effective-Objective-C-2.0-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E4%B9%9D-%E4%BB%A5-%E7%B1%BB%E6%97%8F%E6%A8%A1%E5%BC%8F-%E9%9A%90%E8%97%8F%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82.html" title="访问 Effective Objective-C 2.0 第二章 九、以“类族模式”隐藏实现细节">Effective Objective-C 2.0 第二章 九、以“类族模式”隐藏实现细节</a></h2>
 
-      <p class="excerpt">类族模式也可叫做类簇模式。在工厂模式中，有简单工厂模式，工厂方法模式，抽象工厂模式。而类族模式与简单工厂模式类似，在 Objective-C 的系统框架中普遍使用此模式，例如 UIBbutton，NSArray，NSNumber 等等。我们想要创建一个按钮时，需要调用下面这个类方法：+ (instancetype)buttonWithType:(UIButtonType)buttonType;该方法所返回的对象，其类型取决于传入的按钮类型（button type）。然而，不管返回什么类型的...&hellip;</p>
+      <!-- <p class="excerpt">类族模式也可叫做类簇模式。在工厂模式中，有简单工厂模式，工厂方法模式，抽象工厂模式。而类族模式与简单工厂模式类似，在 Objective-C 的系统框架中普遍使用此模式，例如 UIBbutton，NSArray，NSNumber 等等。我们想要创建一个按钮时，需要调用下面这个类方法：+ (instancetype)buttonWithType:(UIButtonType)buttonType;该方法所返回的对象，其类型取决于传入的按钮类型（button type）。然而，不管返回什么类型的...&hellip;</p> -->
+      <p class="excerpt">类族模式也可叫做类簇模式。
+
+在工厂模式中，有简单工厂模式，工厂方法模式，抽象工厂模式。而类族模式与简单工厂模式类似，在 Objective-C 的系统框架中普遍使用此模式，例如 UIBbutton，NSArray，NSNumber 等等。
+
+我们想要创建一个按钮时，需要调用下面这个类方法：
+
++ (instancetype)buttonWithType:(UIButtonType)buttonType;
+
+
+该方法所返回的对象，其类型取决于传入的按钮类型（button type）。然而，...&hellip;</p>
 
       <div style="margin: .2em auto;width: 100%;height: 1px"></div>
 
@@ -707,7 +907,15 @@
     <li>
       <h2 class="post-list__post-title post-title"><a href="/2019/05/01/Effective-Objective-C-2.0-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%85%AB-%E7%90%86%E8%A7%A3%E5%AF%B9%E8%B1%A1%E7%AD%89%E5%90%8C%E6%80%A7%E8%BF%99%E4%B8%80%E6%A6%82%E5%BF%B5.html" title="访问 Effective Objective-C 2.0 第二章 八、理解对象等同性这一概念">Effective Objective-C 2.0 第二章 八、理解对象等同性这一概念</a></h2>
 
-      <p class="excerpt">比较两个对象相等时，我们可以使用==操作符和isEqual:两个方法。不过按照==操作符比较出来的结果未必使我们想要的，因为该操作比较的是两个指针本身，而不是它指向的对象。比较两个字符串相等时，我们可以用以下方法：NSString *foo = @"Badger 123";  NSString *bar = [NSStringstringWithFormat:@"Badger %i", 123];  BOOL equalA = (foo == bar); // NO BOOL equalB...&hellip;</p>
+      <!-- <p class="excerpt">比较两个对象相等时，我们可以使用==操作符和isEqual:两个方法。不过按照==操作符比较出来的结果未必使我们想要的，因为该操作比较的是两个指针本身，而不是它指向的对象。比较两个字符串相等时，我们可以用以下方法：NSString *foo = @"Badger 123";  NSString *bar = [NSStringstringWithFormat:@"Badger %i", 123];  BOOL equalA = (foo == bar); // NO BOOL equalB...&hellip;</p> -->
+      <p class="excerpt">比较两个对象相等时，我们可以使用==操作符和isEqual:两个方法。不过按照==操作符比较出来的结果未必使我们想要的，因为该操作比较的是两个指针本身，而不是它指向的对象。
+
+比较两个字符串相等时，我们可以用以下方法：
+
+NSString *foo = @"Badger 123";  
+NSString *bar = [NSStringstringWithFormat:@"Badger %i", 123];  
+BOOL equalA = (foo == bar); // NO 
+BOOL...&hellip;</p>
 
       <div style="margin: .2em auto;width: 100%;height: 1px"></div>
 
@@ -745,7 +953,20 @@
     <li>
       <h2 class="post-list__post-title post-title"><a href="/2019/04/30/Effective-Objective-C-2.0-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E4%B8%83-%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%86%85%E9%83%A8%E5%B0%BD%E9%87%8F%E7%9B%B4%E6%8E%A5%E8%AE%BF%E9%97%AE%E5%AE%9E%E4%BE%8B%E5%8F%98%E9%87%8F.html" title="访问 Effective Objective-C 2.0 第二章 七、在对象内部尽量直接访问实例变量">Effective Objective-C 2.0 第二章 七、在对象内部尽量直接访问实例变量</a></h2>
 
-      <p class="excerpt">第七条 在对象内部尽量直接访问实例变量在对象内部读取数据时，应该直接通过实例变量来读，而写入数据时，则应通过属性来写。我们来看一个例子,有一个 Person 类，并且重写它 name 属性的 set/get 方法：#import &lt;Foundation/Foundation.h&gt;NS_ASSUME_NONNULL_BEGIN@interface Person : NSObject@property(nonatomic,copy)NSString *name;-(void)tes...&hellip;</p>
+      <!-- <p class="excerpt">第七条 在对象内部尽量直接访问实例变量在对象内部读取数据时，应该直接通过实例变量来读，而写入数据时，则应通过属性来写。我们来看一个例子,有一个 Person 类，并且重写它 name 属性的 set/get 方法：#import &lt;Foundation/Foundation.h&gt;NS_ASSUME_NONNULL_BEGIN@interface Person : NSObject@property(nonatomic,copy)NSString *name;-(void)tes...&hellip;</p> -->
+      <p class="excerpt">第七条 在对象内部尽量直接访问实例变量
+
+在对象内部读取数据时，应该直接通过实例变量来读，而写入数据时，则应通过属性来写。
+
+我们来看一个例子,有一个 Person 类，并且重写它 name 属性的 set/get 方法：
+
+#import &lt;Foundation/Foundation.h&gt;
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface Person : NSObject
+
+@property(nonatomic,copy)NSString *nam...&hellip;</p>
 
       <div style="margin: .2em auto;width: 100%;height: 1px"></div>
 
@@ -783,7 +1004,24 @@
     <li>
       <h2 class="post-list__post-title post-title"><a href="/2019/04/29/Effective-Objective-C-2.0-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%85%AD-%E5%B1%9E%E6%80%A7-property.html" title="访问 Effective Objective-C 2.0 第二章 六、属性 property">Effective Objective-C 2.0 第二章 六、属性 property</a></h2>
 
-      <p class="excerpt">第六条 propertyproperty 是 Objective-C 的一项特性，用于封装对象中的数据。当我们声明一个属性时：@property(nonatomic,copy)NSString *name;编译器自动为我们生成了如下不可见代码：@synthesize name = _name; //添加实例变量-(NSString *)name;  // get 方法-(void)setName:(NSString *)name  //set 方法也就说 @property = 实例变量 ...&hellip;</p>
+      <!-- <p class="excerpt">第六条 propertyproperty 是 Objective-C 的一项特性，用于封装对象中的数据。当我们声明一个属性时：@property(nonatomic,copy)NSString *name;编译器自动为我们生成了如下不可见代码：@synthesize name = _name; //添加实例变量-(NSString *)name;  // get 方法-(void)setName:(NSString *)name  //set 方法也就说 @property = 实例变量 ...&hellip;</p> -->
+      <p class="excerpt">第六条 property
+
+property 是 Objective-C 的一项特性，用于封装对象中的数据。
+
+当我们声明一个属性时：
+
+@property(nonatomic,copy)NSString *name;
+
+
+编译器自动为我们生成了如下不可见代码：
+
+@synthesize name = _name; //添加实例变量
+-(NSString *)name;  // get 方法
+-(void)setName:(NSString *)name  //set 方法
+
+
+也就说 @...&hellip;</p>
 
       <div style="margin: .2em auto;width: 100%;height: 1px"></div>
 
@@ -821,7 +1059,35 @@
     <li>
       <h2 class="post-list__post-title post-title"><a href="/2019/04/28/CSS%E4%B8%AD-px-em-rem.html" title="访问 css 中 font-size:62.5% 与 px em rem">css 中 font-size:62.5% 与 px em rem</a></h2>
 
-      <p class="excerpt">写 html 发现别人这么写：html{font-size:62.5%;}这是什么意思，怎么用呢？了解 CSS 中 px、em、rem 这三个长度单位就知道了。pxpx，像素，绝对长度。emem，相对长度，相对于应用在当前元素的字体尺寸。一般浏览器字体大小默认为16px。那么我们就可以得出:1em = 16px;如果我们在 css 中声明：html{font-size:62.5%;}则浏览器字体大小更改为：16px * 62.5% = 10px;因为 em 是相对长度，那么此时相对于当前元...&hellip;</p>
+      <!-- <p class="excerpt">写 html 发现别人这么写：html{font-size:62.5%;}这是什么意思，怎么用呢？了解 CSS 中 px、em、rem 这三个长度单位就知道了。pxpx，像素，绝对长度。emem，相对长度，相对于应用在当前元素的字体尺寸。一般浏览器字体大小默认为16px。那么我们就可以得出:1em = 16px;如果我们在 css 中声明：html{font-size:62.5%;}则浏览器字体大小更改为：16px * 62.5% = 10px;因为 em 是相对长度，那么此时相对于当前元...&hellip;</p> -->
+      <p class="excerpt">写 html 发现别人这么写：
+
+html{font-size:62.5%;}
+
+
+这是什么意思，怎么用呢？了解 CSS 中 px、em、rem 这三个长度单位就知道了。
+
+px
+
+px，像素，绝对长度。
+
+em
+
+em，相对长度，相对于应用在当前元素的字体尺寸。
+
+一般浏览器字体大小默认为16px。那么我们就可以得出:
+
+1em = 16px;
+
+
+如果我们在 css 中声明：
+
+html{font-size:62.5%;}
+
+
+则浏览器字体大小更改为：
+
+16px * 62.5% = ...&hellip;</p>
 
       <div style="margin: .2em auto;width: 100%;height: 1px"></div>
 
@@ -859,7 +1125,14 @@
     <li>
       <h2 class="post-list__post-title post-title"><a href="/2019/04/24/Effective-Objective-C-2.0-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E7%86%9F%E6%82%89-Objective-C.html" title="访问 Effective Objective-C 2.0 第一章 熟悉 Objective-C">Effective Objective-C 2.0 第一章 熟悉 Objective-C</a></h2>
 
-      <p class="excerpt">一、了解 Objective-C 语言的起源Objective-C 与 C++、Java 等类似，是一种面向对象的语言。该语言使用“消息结构”而非“函数调用”。Objective-C 语言由 Smalltalk 演化而来，后者是消息型语言的鼻祖。Objctive-C 为 C 语言添加了面向对象的特性，是其超集。Objective-C 使用动态绑定的消息结构，也就是说，在运行时才会检查对象类型。接受一条消息之后，究竟应该执行何种代码，由运行期环境而非编译器来决定。二、在类的头文件中尽量少引用...&hellip;</p>
+      <!-- <p class="excerpt">一、了解 Objective-C 语言的起源Objective-C 与 C++、Java 等类似，是一种面向对象的语言。该语言使用“消息结构”而非“函数调用”。Objective-C 语言由 Smalltalk 演化而来，后者是消息型语言的鼻祖。Objctive-C 为 C 语言添加了面向对象的特性，是其超集。Objective-C 使用动态绑定的消息结构，也就是说，在运行时才会检查对象类型。接受一条消息之后，究竟应该执行何种代码，由运行期环境而非编译器来决定。二、在类的头文件中尽量少引用...&hellip;</p> -->
+      <p class="excerpt">一、了解 Objective-C 语言的起源
+
+Objective-C 与 C++、Java 等类似，是一种面向对象的语言。该语言使用“消息结构”而非“函数调用”。Objective-C 语言由 Smalltalk 演化而来，后者是消息型语言的鼻祖。
+
+Objctive-C 为 C 语言添加了面向对象的特性，是其超集。Objective-C 使用动态绑定的消息结构，也就是说，在运行时才会检查对象类型。接受一条消息之后，究竟应该执行何种代码，由运行期环境而非编译器来决定。
+
+二、在类的头文件...&hellip;</p>
 
       <div style="margin: .2em auto;width: 100%;height: 1px"></div>
 
@@ -912,54 +1185,16 @@
 
 </div>
 
-            <section class="footer">
+            <section class="footer" >
   <footer>
-    <div class = "footer_div">  
-      <nav class="cover-navigation navigation--social">
-        <ul class="navigation">
-
-          
-          <!-- Github -->
-          <li class="navigation__item_social">
-            <a href="https://github.com/Vergil-wj" title="@Vergil-wj 的 Github" target="_blank">
-              <div class="footer-social-icon" style="background:url(/images/github.png);"></div>
-            </a>
-          </li>
-          
-
-          
-          <li class="navigation__item_social">
-            <a href="https://www.jianshu.com/u/3e3ba42c4c63" title="@3e3ba42c4c63" target="_blank">
-              <div class="footer-social-icon" style="background:url(/images/jianshu.jpg);"></div>
-            </a>
-          </li>
-
-          
-
-          
-          <!-- Email -->
-          <li class="navigation__item_social">
-            <a href="mailto:834372189@qq.com" title="Contact me">
-              <div class="footer-social-icon" style="background:url(/images/email.png);"></div>
-            </a>
-          </li>
-          
-          
-        </ul>
-      </nav>
-
-    </div>
-
-    <div class = "footer_div">  
-
-      <div align="center">
+    <!-- <div class = "footer_div">   -->
+      <!-- <div align="center"> -->
         <p class="copyright text-muted">
           Copyright &copy; Vergil 2019
         </p>
         <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
-      </div>
-
-    </div>
+      <!-- </div> -->
+    <!-- </div> -->
   </footer>
 </section>
 

@@ -396,7 +396,8 @@ img::-moz-selection {
   .content-wrapper {
     z-index: 800;
     width: 70%;
-    margin-left: 30%; }
+    margin-left: 30%;
+     }
 
   .content-wrapper__inner {
     /*margin: 0 10%;*/
@@ -407,11 +408,16 @@ img::-moz-selection {
   }
 
   .footer {
+    width: 100%;
     display: block;
     padding: 2em 0 0 0;
     border-top: 1px solid #DDDDDD;
     font-size: .7em;
-    color: #b3b3b3; }
+    color: #b3b3b3; 
+    float: left;
+    margin-top: 20px;
+    text-align: center;
+  }
 
   .footer__copyright {
     display: block;
