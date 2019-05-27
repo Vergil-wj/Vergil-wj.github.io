@@ -825,11 +825,11 @@ img::-moz-selection {
     padding: 0;
     list-style-type: none;
     text-align: left; 
-    display: inline-block;
+    /*display: inline-block;*/
   }
   .post-list li {
     margin: 0 0 2.2em 0;
-    float: left;
+    /*float: left;*/
 
     /*-moz-box-shadow:4px 4px 4px #efefef, 
     -4px -4px 4px #efefef, 
@@ -883,7 +883,6 @@ img::-moz-selection {
 }
 
 .post-list__meta {
-  display: block;
   margin: .7em 0 0 0;
   font-size: .9em;
   color: #c7c7c7; 
@@ -947,7 +946,8 @@ img::-moz-selection {
 .post-list__divider {
   width: 30%;
   margin: 2.2em 0 2.1em 0;
-  border-top: 1px solid #DDDDDD; }
+  border-top: 1px solid #DDDDDD; 
+}
 
 *:focus {
   outline: none; }
