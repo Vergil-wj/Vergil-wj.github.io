@@ -649,12 +649,13 @@ img::-moz-selection {
     margin-right: 10px;
     font-size: .4em;
     color: #666;
-    border-bottom: 0.1px solid #666;
+    border-bottom: 0.1px solid red;
     text-shadow: none;
   }
   .btn:hover, .navigation__flink_item a:hover {
     color: #fff;
     border-color: #fff; 
+    border-color: red;
   }
 
   .btn-border-small {
@@ -674,7 +675,7 @@ img::-moz-selection {
   }
 
   .btn-tertiary {
-    border-color: #999999;
+    border-color: #BF1827;
     color: #999999; 
   }
   .btn-tertiary:hover {

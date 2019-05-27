@@ -31,13 +31,11 @@ Objctive-C 为 C 语言添加了面向对象的特性，是其超集。Objective
 >
 >3、为了防止重复引用可采用：
 >
->	```
 >	#ifndef  ViewController_h
 >
 >	#define ViewController_h
 >
 >	#endif
->	```
 
 #### \#import:
 

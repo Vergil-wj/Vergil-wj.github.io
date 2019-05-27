@@ -1,1 +1,0 @@
-Vergil‘s blog
