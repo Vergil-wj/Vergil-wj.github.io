@@ -35,11 +35,15 @@ UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, -headerHeight, k
 
 ## 添加底部视图
 
-在 webView 加载完成后，获取 contentSize 并重新设置。
+在 webView 加载完成后，获取 UIWebBrowserView 的 size 并重新设置 webView 的 contentSize。
+
+UIWebBrowserView 是负责展示 html 内容的。
 
 ```
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
-	CGSize contentSize = self.webView.scrollView.contentSize;
+
+    UIView *webBrowserView = self.webView.scrollView.subviews[0];
+    CGSize contentSize = webBrowserView.frame.size;
     //footer
     UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, contentSize.height, kDeviceWidth, footerHeight)];
     self.webView.scrollView.contentSize = CGSizeMake(contentSize.width, contentSize.height + footerHeight);
