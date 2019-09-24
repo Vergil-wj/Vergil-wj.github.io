@@ -1,13 +1,13 @@
 ---
 layout:     post
-title:      iOS NSBluetoothAlwaysUsageDescription
+title:      iOS 13 NSBluetoothAlwaysUsageDescription
 subtitle:   App 启动
 date:       2019-09-18
 author:     Vergil
 header-img: img/post-bg-cook.jpg
 catalog: true
 tags:
-    - iOS
+    - iOS iOS13
 ---
 
 项目中用到了蓝牙，今天提交时报被拒了，问题如下：
