@@ -7,7 +7,8 @@ author:     Vergil
 header-img: img/post-bg-cook.jpg
 catalog: true
 tags:
-    - iOS iOS13
+    - iOS 
+    - iOS13
 ---
 
 项目中一直使用的是 UIWebView，虽然 UIWebVeiw 会造成 30M 左右的内存泄漏，但实际对自己的项目影响不大。WKWebView 的坑又很多，所以也没有考虑换过。这次升级 iOS 13 之后 UIWebView 被废弃了，项目也不得不全改为 WKWebView 了，顺便记录下遇到的问题。
