@@ -11,6 +11,9 @@ tags:
     - UIWebView
 ---
 
+>2019-09-26：
+iOS 13 之后由于 UIWebView 被废弃，本文已经不在适用。请看这篇文章 [iOS 13 UIWebView 更改为 WKWebView](https://vergil-wj.github.io/2019/09/25/iOS-13-UIWebView-更改为-WKWebView.html)
+
 有时我们用 webView 展示 html 是需要自定义头部视图与底部视图，原生没有像 tableView 那样提供相应的方法。我们只能自己写了。
 
 ## 添加头部视图
