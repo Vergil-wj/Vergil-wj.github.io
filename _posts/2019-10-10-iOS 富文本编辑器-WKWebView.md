@@ -11,7 +11,7 @@ tags:
     - 富文本编辑器
 ---
 
-iOS 13 之后不再支持 UIWebView,所以将之前一篇文章[iOS 富文本编辑器-UIWebView](https://vergil-wj.github.io/2019/06/26/iOS-富文本编辑器.html)中 UIWebView 替换为 WKWebView。以下为更换到 WKWebView 的一些知识点。
+iOS 13 之后不再支持 UIWebView,所以将之前一篇文章[iOS 富文本编辑器-UIWebView](https://www.jianshu.com/p/5efb2d8dc3da)中 UIWebView 替换为 WKWebView。以下为更换到 WKWebView 的一些知识点。
 
 ## 富文本编辑器设计的知识点
 

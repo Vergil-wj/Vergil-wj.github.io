@@ -11,6 +11,9 @@ tags:
     - 富文本编辑器
 ---
 
+
+>2019-10-11 由于 iOS 13 之后 UIWebView 废弃，所以将项目中的UIWebView 替换为 WKWebView。请看我的这篇文章[iOS 富文本编辑器-WKWebView](https://www.jianshu.com/p/dc2c95126751)。以下内容在 iOS 13 之后不再适用。
+
 [ZSSRichTextEditor](https://github.com/nnhubbard/ZSSRichTextEditor) 是一款基于 webView 的富文本编辑器。由于项目需要，本着学习态度在[ZSSRichTextEditor](https://github.com/nnhubbard/ZSSRichTextEditor)基础上借用下这位同学的项目[WGEditor](https://github.com/study123456/WGEditor-mobile) 的 UI，进行了修改。我的项目地址：[https://github.com/Vergil-wj/RichTextEditor](https://github.com/Vergil-wj/RichTextEditor)
 
 ## 富文本编辑器设计的知识点
