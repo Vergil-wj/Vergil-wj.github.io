@@ -1,0 +1,64 @@
+---
+layout:     post
+title:      iOS CRC16 校验码
+subtitle:   WKWebView
+date:       2019-10-10
+author:     Vergil
+header-img: img/post-bg-cook.jpg
+catalog: true
+tags:
+    - iOS
+---
+
+CRC 在线校验地址：[https://www.lammertbies.nl/comm/info/crc-calculation.html](CRC在线校验地址：https://www.lammertbies.nl/comm/info/crc-calculation.html)
+
+本文采用 16位的 CRC 校验码，并采用 CRC-CCITT 多项式。
+
+.h
+
+```
+@interface NSData (VJCRC16)
+
+-(NSData*)crc16 ;
+
+@end
+```
+
+.m
+
+```
+#import "NSData+VJCRC16.h"
+
+#define PLOY 0X1021
+
+@implementation NSData (VJCRC16)
+
+- (NSData*)crc16 {
+    const uint8_t *byte = (const uint8_t *)self.bytes;
+    uint16_t length = (uint16_t)self.length;
+    uint16_t res =  gen_crc16(byte, length);
+    
+    NSData *val = [NSData dataWithBytes:&res length:sizeof(res)];
+    
+    return val;
+}
+
+uint16_t gen_crc16(const uint8_t *data, uint16_t size) {
+    uint16_t crc = 0;
+    uint8_t i;
+    for (; size > 0; size--) {
+        crc = crc ^ (*data++ <<8);
+        for (i = 0; i < 8; i++) {
+            if (crc & 0X8000) {
+                crc = (crc << 1) ^ PLOY;
+            }else {
+                crc <<= 1;
+            }
+        }
+        crc &= 0XFFFF;
+    }
+    return crc;
+}
+
+@end
+```
